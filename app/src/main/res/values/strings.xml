@@ -9,4 +9,8 @@
     <string name="see_all_text">See all</string>
     <string name="rating_text">rating</string>
     <string name="you_may_like_text">You may like</string>
+    <string name="genre_movie_text">Eng | Action, Sci-fi | 3h10m</string>
+    <string name="title_movie_text">Maleficent</string>
+    <string name="story_line_text">Story Line</string>
+    <string name="lorem_ipsum_text">Lorem ipsum, utawa ringkesé lipsum, iku tèks standar sing dipasang kanggo nuduhaké èlemèn grafis utawa presentasi visual kaya font, tipografi, lan tata letak.</string>
 </resources>
