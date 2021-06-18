@@ -1,13 +1,12 @@
-package com.alpine12.moviegaleryshow.ui.splash
+package com.alpine12.moviegalleryshow.ui.splash
 
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.alpine12.moviegaleryshow.R
-import com.alpine12.moviegaleryshow.ui.main.MainActivity
-import kotlinx.coroutines.delay
+import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.ui.main.MainActivity
 import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {

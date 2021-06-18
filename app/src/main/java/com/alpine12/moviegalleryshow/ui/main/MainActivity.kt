@@ -1,14 +1,11 @@
-package com.alpine12.moviegaleryshow.ui.main
+package com.alpine12.moviegalleryshow.ui.main
 
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.alpine12.moviegaleryshow.R
-import com.alpine12.moviegaleryshow.databinding.ActivityMainBinding
+import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupNavController()
+
 
     }
 

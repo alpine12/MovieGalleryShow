@@ -1,4 +1,4 @@
-package com.alpine12.moviegaleryshow
+package com.alpine12.moviegalleryshow
 
 import org.junit.Test
 

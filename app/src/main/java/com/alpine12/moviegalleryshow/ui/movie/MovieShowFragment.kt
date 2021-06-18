@@ -1,10 +1,10 @@
-package com.alpine12.moviegaleryshow.ui.movie
+package com.alpine12.moviegalleryshow.ui.movie
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.alpine12.moviegaleryshow.R
-import com.alpine12.moviegaleryshow.databinding.FragmentMovieShowBinding
+import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.databinding.FragmentMovieShowBinding
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 

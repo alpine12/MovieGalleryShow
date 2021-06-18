@@ -1,10 +1,10 @@
-package com.alpine12.moviegaleryshow.ui.tvshow
+package com.alpine12.moviegalleryshow.ui.tvshow
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.alpine12.moviegaleryshow.R
-import com.alpine12.moviegaleryshow.databinding.FragmentTvShowBinding
+import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.databinding.FragmentTvShowBinding
 
 
 class TvShowFragment : Fragment(R.layout.fragment_tv_show) {

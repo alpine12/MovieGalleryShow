@@ -1,4 +1,4 @@
-package com.alpine12.moviegaleryshow
+package com.alpine12.moviegalleryshow
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

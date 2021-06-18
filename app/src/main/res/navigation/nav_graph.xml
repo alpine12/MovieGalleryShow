@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/menu_movie_fragment"
-        android:name="com.alpine12.moviegaleryshow.ui.movie.MovieShowFragment"
+        android:name="com.alpine12.moviegalleryshow.ui.movie.MovieShowFragment"
         android:label="fragment_movie_show"
         tools:layout="@layout/fragment_movie_show" />
     <fragment
         android:id="@+id/menu_tv_fragment"
-        android:name="com.alpine12.moviegaleryshow.ui.tvshow.TvShowFragment"
+        android:name="com.alpine12.moviegalleryshow.ui.tvshow.TvShowFragment"
         android:label="fragment_tv_show"
         tools:layout="@layout/fragment_tv_show" />
 </navigation>
