@@ -58,6 +58,7 @@ object NetworkModule {
             Retrofit.Builder()
                 .baseUrl(BuildConfig.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build()
     }
 
@@ -65,4 +66,5 @@ object NetworkModule {
     @Singleton
     fun providesApiEndPoint(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
+
 }
