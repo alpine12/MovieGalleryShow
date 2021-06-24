@@ -111,6 +111,11 @@ dependencies {
     //Timber logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    //Paging 3
+    def paging_version = "3.0.0"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
+
 
 }
 kapt {
