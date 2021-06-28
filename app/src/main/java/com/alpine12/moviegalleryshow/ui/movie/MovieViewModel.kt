@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alpine12.moviegalleryshow.data.model.Result
+import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.repository.RemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -19,30 +18,36 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     ViewModel() {
 
     private val _popularMovieList =
-        MutableLiveData<Result<ResponseMovie>>()
-    val popularMovieList: LiveData<Result<ResponseMovie>> = _popularMovieList
+        MutableLiveData<ResultData<ResponseMovie>>()
+    private val _topRatedMovieList = MutableLiveData<ResultData<ResponseMovie>>()
+    private val _upComingMovieList = MutableLiveData<ResultData<ResponseMovie>>()
+
+    val popularMovieList: LiveData<ResultData<ResponseMovie>> = _popularMovieList
+    val topRatedMovieList: LiveData<ResultData<ResponseMovie>> = _topRatedMovieList
+    val upComingMovieList: LiveData<ResultData<ResponseMovie>> = _upComingMovieList
 
     init {
         getPopularMovie()
         getTopRated()
-        getNowPlaying()
+        getUpComing()
+
     }
 
     private fun getPopularMovie() = viewModelScope.launch {
         remoteRepository.getPopularMovie().collect {
-           Timber.d("Movie list a = ${it?.data.toString()}")
+            _popularMovieList.postValue(it)
         }
     }
 
     private fun getTopRated() = viewModelScope.launch {
         remoteRepository.getTopRatedMovie().collect {
-            Timber.d("Movie list b = ${it?.data.toString()}")
+            _topRatedMovieList.postValue(it)
         }
     }
 
-    private fun getNowPlaying() = viewModelScope.launch {
-        remoteRepository.getNowPlayingMovie().collect {
-            Timber.d("Movie list c = ${it?.data.toString()}")
+    private fun getUpComing() = viewModelScope.launch {
+        remoteRepository.getNowUpComingMovie().collect {
+            _upComingMovieList.postValue(it)
         }
     }
 

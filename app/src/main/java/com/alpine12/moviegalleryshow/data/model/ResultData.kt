@@ -2,7 +2,7 @@ package com.alpine12.moviegalleryshow.data.model
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseError
 
 
-data class Result<out T>(
+data class ResultData<out T>(
     val status: Status,
     val data: T?,
     val error: ResponseError?,
@@ -16,16 +16,16 @@ data class Result<out T>(
     }
 
     companion object {
-        fun <T> success(data: T?): Result<T> {
-            return Result(Status.SUCCESS, data, null, null)
+        fun <T> success(data: T?): ResultData<T> {
+            return ResultData(Status.SUCCESS, data, null, null)
         }
 
-        fun <T> error(message: String, error: ResponseError?): Result<T> {
-            return Result(Status.ERROR, null, error, message)
+        fun <T> error(message: String, error: ResponseError?): ResultData<T> {
+            return ResultData(Status.ERROR, null, error, message)
         }
 
-        fun <T> loading(data: T? = null): Result<T> {
-            return Result(Status.LOADING, data, null, null)
+        fun <T> loading(data: T? = null): ResultData<T> {
+            return ResultData(Status.LOADING, data, null, null)
         }
     }
 

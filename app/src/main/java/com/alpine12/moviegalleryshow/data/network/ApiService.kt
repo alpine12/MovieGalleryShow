@@ -15,8 +15,8 @@ interface ApiService {
     @GET("movie/top_rated")
     suspend fun getTopRatedMovie(): Response<ResponseMovie>
 
-    @GET("movie/now_playing")
-    suspend fun getNowPlayingMovie(): Response<ResponseMovie>
+    @GET("movie/upcoming")
+    suspend fun getNowUpComing(): Response<ResponseMovie>
 
     @GET("movie/{movieType}")
     suspend fun getAllMovie(

@@ -2,10 +2,9 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id  'dagger.hilt.android.plugin'
+    id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
 }
-
 
 
 android {
@@ -33,7 +32,7 @@ android {
             buildConfigField 'String', 'youtubeUrl', '"https://img.youtube.com/vi/"'
         }
 
-        debug{
+        debug {
             buildConfigField 'String', 'baseUrl', '"https://api.themoviedb.org/3/"'
             buildConfigField 'String', 'imageUrl', '"https://image.tmdb.org/t/p/original/"'
             buildConfigField 'String', 'apiKey', '"9a3e423e0e569a1992be36267f001479"'
@@ -65,6 +64,11 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // ViewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    // RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //Fragment
     def fragment_ktx_version = "1.3.5"
@@ -98,7 +102,7 @@ dependencies {
 
     //Dependency Injection
     def hilt_version = "2.37"
-    def hilt_view_model_version ="1.0.0-alpha03"
+    def hilt_view_model_version = "1.0.0-alpha03"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_view_model_version"
@@ -113,9 +117,12 @@ dependencies {
 
     //Paging 3
     def paging_version = "3.0.0"
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
-
+    //Image loader glide
+    def glide_version="4.12.0"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
 }
 kapt {
