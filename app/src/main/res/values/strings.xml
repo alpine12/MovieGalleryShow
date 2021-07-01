@@ -14,4 +14,5 @@
     <string name="story_line_text">Story Line</string>
     <string name="lorem_ipsum_text">Lorem ipsum, utawa ringkesé lipsum, iku tèks standar sing dipasang kanggo nuduhaké èlemèn grafis utawa presentasi visual kaya font, tipografi, lan tata letak.</string>
     <string name="movie_poster">Movie Poster</string>
+    <string name="image_backdrop">Image Backdrop</string>
 </resources>

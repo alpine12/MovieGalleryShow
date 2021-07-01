@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.data.model.ResultData.Status.*
 import com.alpine12.moviegalleryshow.databinding.FragmentMovieShowBinding
@@ -15,7 +17,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MovieShowFragment : Fragment(R.layout.fragment_movie_show) {
+class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
+    MovieAdapter.OnMovieClickListener {
 
     private val viewModel: MovieViewModel by viewModels()
     private lateinit var topRatedAdapter: MovieAdapter
@@ -34,16 +37,18 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show) {
 
     private fun initUi() {
         popularMovieAdapter = PagerMovieAdapter()
-        topRatedAdapter = MovieAdapter()
-        upComingAdapter = MovieAdapter()
+        topRatedAdapter = MovieAdapter(this)
+        upComingAdapter = MovieAdapter(this)
 
         binding.apply {
             viewPagerPopularMovie.adapter = popularMovieAdapter
             viewPagerPopularMovie.setPageTransformer(PagerTransformer())
             rvTopRatedMovie.adapter = topRatedAdapter
             rvTopRatedMovie.setHasFixedSize(true)
+            topRatedAdapter.stateRestorationPolicy = PREVENT_WHEN_EMPTY
             rvUpComingMovies.adapter = upComingAdapter
             rvUpComingMovies.setHasFixedSize(true)
+            upComingAdapter.stateRestorationPolicy = PREVENT_WHEN_EMPTY
         }
     }
 
@@ -114,5 +119,10 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show) {
                 binding.textInputSearch.clearFocus()
             }
         }
+    }
+
+    override fun onMovieClick(idMovie: Int) {
+        val action = MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment2()
+        findNavController().navigate(action)
     }
 }

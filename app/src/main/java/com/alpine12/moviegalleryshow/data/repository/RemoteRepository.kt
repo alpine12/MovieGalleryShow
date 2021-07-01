@@ -1,6 +1,7 @@
 package com.alpine12.moviegalleryshow.data.repository
 
 import com.alpine12.moviegalleryshow.data.model.ResultData
+import com.alpine12.moviegalleryshow.data.model.movie.DetailMovie
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.network.ApiService
 import com.alpine12.moviegalleryshow.data.repository.remote.MovieRemoteDataSource
@@ -43,4 +44,10 @@ class RemoteRepository @Inject constructor(
             emit(movie)
         }.flowOn(IO)
     }
+
+    fun getDetailMovie(idMovie: Int): Flow<ResultData<DetailMovie>?> =
+        flow {
+            val detailMovie = movieRemoteDataSource.fetchDetailMovie(idMovie)
+            emit(detailMovie)
+        }.flowOn(IO)
 }

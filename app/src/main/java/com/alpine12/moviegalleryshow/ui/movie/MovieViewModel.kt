@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alpine12.moviegalleryshow.data.model.ResultData
+import com.alpine12.moviegalleryshow.data.model.movie.DetailMovie
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.repository.RemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,10 +22,12 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
         MutableLiveData<ResultData<ResponseMovie>>()
     private val _topRatedMovieList = MutableLiveData<ResultData<ResponseMovie>>()
     private val _upComingMovieList = MutableLiveData<ResultData<ResponseMovie>>()
+    private val _detailMovie = MutableLiveData<ResultData<DetailMovie>>()
 
     val popularMovieList: LiveData<ResultData<ResponseMovie>> = _popularMovieList
     val topRatedMovieList: LiveData<ResultData<ResponseMovie>> = _topRatedMovieList
     val upComingMovieList: LiveData<ResultData<ResponseMovie>> = _upComingMovieList
+    val detailMovie: LiveData<ResultData<DetailMovie>> = _detailMovie
 
     init {
         getPopularMovie()
@@ -48,6 +51,12 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     private fun getUpComing() = viewModelScope.launch {
         remoteRepository.getNowUpComingMovie().collect {
             _upComingMovieList.postValue(it)
+        }
+    }
+
+    fun getDetailMovie(idMovie: Int) = viewModelScope.launch {
+        remoteRepository.getDetailMovie(idMovie).collect {
+            _detailMovie.postValue(it)
         }
     }
 

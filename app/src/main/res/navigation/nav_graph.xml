@@ -9,10 +9,23 @@
         android:id="@+id/menu_movie_fragment"
         android:name="com.alpine12.moviegalleryshow.ui.movie.MovieShowFragment"
         android:label="fragment_movie_show"
-        tools:layout="@layout/fragment_movie_show" />
+        tools:layout="@layout/fragment_movie_show" >
+        <action
+            android:id="@+id/action_menu_movie_fragment_to_detailMovieFragment2"
+            app:destination="@id/detailMovieFragment2"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/detailMovieFragment2"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/menu_tv_fragment"
         android:name="com.alpine12.moviegalleryshow.ui.tvshow.TvShowFragment"
         android:label="fragment_tv_show"
         tools:layout="@layout/fragment_tv_show" />
+    <fragment
+        android:id="@+id/detailMovieFragment2"
+        android:name="com.alpine12.moviegalleryshow.ui.movie.DetailMovieFragment"
+        android:label="fragment_detail_movie"
+        tools:layout="@layout/fragment_detail_movie" />
 </navigation>

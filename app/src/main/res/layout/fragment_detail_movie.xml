@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:background="@color/background_black"
     android:layout_height="match_parent"
+    tools:context=".ui.movie.DetailMovieFragment"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgPosterPath"
         android:layout_width="match_parent"
         android:layout_height="360dp"
         android:adjustViewBounds="true"
@@ -16,7 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/orange"
-        tools:src="@drawable/ic_movie_nav" />
+        tools:src="@drawable/ic_movie_nav"
+        android:contentDescription="@string/image_backdrop" />
 
     <TextView
         android:id="@+id/tv_title_movie"
@@ -28,7 +30,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imgPosterPath"
         tools:text="@string/title_movie_text" />
 
     <TextView
