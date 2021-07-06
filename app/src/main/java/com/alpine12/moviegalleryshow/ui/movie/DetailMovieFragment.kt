@@ -4,21 +4,25 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.alpine12.moviegalleryshow.BuildConfig
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.movie.DetailMovie
 import com.alpine12.moviegalleryshow.databinding.FragmentDetailMovieBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import java.time.Duration
+import java.util.*
 
 @AndroidEntryPoint
 class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     private lateinit var binding: FragmentDetailMovieBinding
     private val viewModel: MovieViewModel by viewModels()
+    private val args: DetailMovieFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentDetailMovieBinding.bind(view)
@@ -27,7 +31,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
     private fun initUi() {
-        viewModel.getDetailMovie(423108)
+        viewModel.getDetailMovie(args.idMovie)
     }
 
     private fun subscribeUi() {
@@ -50,14 +54,22 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     private fun showData(data: DetailMovie?) {
         data?.let {
-            Glide.with(binding.root)
+            Glide.with(this@DetailMovieFragment)
                 .load(BuildConfig.imageUrl + data.backdrop_path)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.ic_movie_nav)
                 .into(binding.imgPosterPath)
-            Timber.d(BuildConfig.imageUrl + data.poster_path)
             binding.tvTitleMovie.text = data.original_title
-            binding.tvGenreMovie.text =  data.genres.joinToString(" | ") {
+            val genre = data.genres.joinToString(" ") {
                 it.name
             }
+            val originalTitle =  data.original_language.uppercase(Locale.getDefault())
+            val hours = data.runtime /60
+            val minute = data.runtime % 60
+            val duration = "${hours}h${minute}m"
+            val subTitle = String.format("%s | %s | %s",
+               originalTitle, genre, duration)
+            binding.tvGenreMovie.text = subTitle
 
             binding.tvDescStoryLine.text = data.overview
 

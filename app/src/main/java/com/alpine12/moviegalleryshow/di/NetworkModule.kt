@@ -35,6 +35,7 @@ object NetworkModule {
         var request: Request = chain.request()
         val url: HttpUrl = request.url.newBuilder()
             .addQueryParameter("api_key", BuildConfig.apiKey)
+            .addQueryParameter("language", "en-US")
             .build()
         request = request.newBuilder().url(url).build()
 
@@ -66,32 +67,6 @@ object NetworkModule {
     @Singleton
     fun providesApiEndPoint(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
-
-//    @Provides
-//    @Singleton
-//    fun providesLoggingInterceptor(): HttpLoggingInterceptor =
-//        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-//
-//    @Provides
-//    @Singleton
-//    fun providesOkHttpClient(logging: HttpLoggingInterceptor): OkHttpClient =
-//        OkHttpClient.Builder()
-//            .addInterceptor(logging)
-//            .build()
-//
-//    @Provides
-//    @Singleton
-//    fun provideRetrofit(client: OkHttpClient): Retrofit =
-//        Retrofit.Builder()
-//            .baseUrl(BuildConfig.baseUrl)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .client(client)
-//            .build()
-//
-//    @Provides
-//    @Singleton
-//    fun provideUnsplashApi(retrofit: Retrofit): ApiService =
-//        retrofit.create(ApiService::class.java)
 
     @Provides
     @Singleton

@@ -27,5 +27,9 @@
         android:id="@+id/detailMovieFragment2"
         android:name="com.alpine12.moviegalleryshow.ui.movie.DetailMovieFragment"
         android:label="fragment_detail_movie"
-        tools:layout="@layout/fragment_detail_movie" />
+        tools:layout="@layout/fragment_detail_movie" >
+        <argument
+            android:name="idMovie"
+            app:argType="integer" />
+    </fragment>
 </navigation>

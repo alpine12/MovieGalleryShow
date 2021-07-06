@@ -6,6 +6,7 @@ data class DetailMovie(
     val backdrop_path: String,
     val original_language: String,
     val genres: List<Genre>,
+    val runtime : Int,
     val overview: String,
     val production_companies: List<Companies>
 ) {

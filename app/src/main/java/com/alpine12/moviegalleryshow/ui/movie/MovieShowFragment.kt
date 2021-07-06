@@ -18,7 +18,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
-    MovieAdapter.OnMovieClickListener {
+    MovieAdapter.OnMovieClickListener, PagerMovieAdapter.OnPagerClick {
 
     private val viewModel: MovieViewModel by viewModels()
     private lateinit var topRatedAdapter: MovieAdapter
@@ -36,7 +36,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     }
 
     private fun initUi() {
-        popularMovieAdapter = PagerMovieAdapter()
+        popularMovieAdapter = PagerMovieAdapter(this)
         topRatedAdapter = MovieAdapter(this)
         upComingAdapter = MovieAdapter(this)
 
@@ -122,7 +122,16 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     }
 
     override fun onMovieClick(idMovie: Int) {
-        val action = MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment2()
+        val action =
+            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment2(idMovie)
         findNavController().navigate(action)
     }
+
+    override fun onPagerClick(idMovie: Int) {
+        val action =
+            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment2(idMovie)
+        findNavController().navigate(action)
+    }
+
+
 }

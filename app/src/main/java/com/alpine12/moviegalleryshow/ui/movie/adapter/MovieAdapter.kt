@@ -13,7 +13,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import timber.log.Timber
 
-class MovieAdapter(private val listener : OnMovieClickListener) : ListAdapter<Movie, MovieAdapter.ViewHolder>(DiffCallBack()) {
+class MovieAdapter(private val listener: OnMovieClickListener) :
+    ListAdapter<Movie, MovieAdapter.ViewHolder>(DiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -32,8 +33,8 @@ class MovieAdapter(private val listener : OnMovieClickListener) : ListAdapter<Mo
         init {
             binding.apply {
                 root.setOnClickListener {
-                    val position = absoluteAdapterPosition
-                    if (position != RecyclerView.NO_POSITION){
+                    val position = position
+                    if (position != RecyclerView.NO_POSITION) {
                         val idMovie = getItem(position).id
                         listener.onMovieClick(idMovie)
                     }
@@ -55,7 +56,7 @@ class MovieAdapter(private val listener : OnMovieClickListener) : ListAdapter<Mo
     }
 
     interface OnMovieClickListener {
-        fun onMovieClick(idMovie : Int)
+        fun onMovieClick(idMovie: Int)
     }
 
     class DiffCallBack : DiffUtil.ItemCallback<Movie>() {
