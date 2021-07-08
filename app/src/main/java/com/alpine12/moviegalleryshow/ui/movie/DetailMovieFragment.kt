@@ -10,11 +10,12 @@ import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.movie.DetailMovie
 import com.alpine12.moviegalleryshow.databinding.FragmentDetailMovieBinding
+import com.alpine12.moviegalleryshow.ui.movie.adapter.CompaniesAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.Duration
+import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -23,6 +24,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     private lateinit var binding: FragmentDetailMovieBinding
     private val viewModel: MovieViewModel by viewModels()
     private val args: DetailMovieFragmentArgs by navArgs()
+    private lateinit var companiesAdapter: CompaniesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentDetailMovieBinding.bind(view)
@@ -31,7 +33,15 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
     private fun initUi() {
+        companiesAdapter = CompaniesAdapter()
+
+
         viewModel.getDetailMovie(args.idMovie)
+
+        binding.apply {
+            rvProductionCompanies.adapter = companiesAdapter
+            rvProductionCompanies.setHasFixedSize(true)
+        }
     }
 
     private fun subscribeUi() {
@@ -63,15 +73,21 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             val genre = data.genres.joinToString(" ") {
                 it.name
             }
-            val originalTitle =  data.original_language.uppercase(Locale.getDefault())
-            val hours = data.runtime /60
+            val originalTitle = data.original_language.uppercase(Locale.getDefault())
+            val hours = data.runtime / 60
             val minute = data.runtime % 60
             val duration = "${hours}h${minute}m"
-            val subTitle = String.format("%s | %s | %s",
-               originalTitle, genre, duration)
+            val subTitle = String.format(
+                "%s | %s | %s",
+                originalTitle, genre, duration
+            )
             binding.tvGenreMovie.text = subTitle
-
             binding.tvDescStoryLine.text = data.overview
+
+            data.production_companies.apply {
+                Timber.d("Companies : ${this.toString()}")
+                companiesAdapter.submitList(this)
+            }
 
         }
     }
