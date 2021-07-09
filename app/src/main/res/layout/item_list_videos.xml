@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_marginEnd="8dp"
+    tools:background="@color/orange"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivTrailer"
+        android:layout_width="200dp"
+        android:layout_height="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_gradient_black"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTrailer"
+        app:layout_constraintEnd_toEndOf="@+id/ivTrailer"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ivTrailer"
+        app:layout_constraintTop_toTopOf="@+id/ivTrailer" />
+
+    <ImageView
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:adjustViewBounds="true"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/youtube"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTrailer"
+        app:layout_constraintEnd_toEndOf="@+id/ivTrailer"
+        app:layout_constraintStart_toStartOf="@+id/ivTrailer"
+        app:layout_constraintTop_toTopOf="@+id/ivTrailer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

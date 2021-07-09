@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alpine12.moviegalleryshow.BuildConfig
 import com.alpine12.moviegalleryshow.R
-import com.alpine12.moviegalleryshow.data.model.movie.Companies
+import com.alpine12.moviegalleryshow.data.model.detailmovie.Companies
 import com.alpine12.moviegalleryshow.databinding.ItemListCompaniesProductionBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions

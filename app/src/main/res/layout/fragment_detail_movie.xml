@@ -15,14 +15,38 @@
         <ImageView
             android:id="@+id/imgPosterPath"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="340dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image_backdrop"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_movie_nav" />
+
+        <View
+            android:id="@+id/gradient"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_gradient_black"
+            app:layout_constraintBottom_toBottomOf="@+id/imgPosterPath"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgPosterPath" />
+
+        <include
+            android:id="@+id/btnTrailer"
+            layout="@layout/button_trailer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/gradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gradient"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/tv_title_movie"
@@ -81,16 +105,45 @@
             tools:text="@string/lorem_ipsum_text" />
 
         <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/trailers"
+            android:textColor="@color/title_text"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tvTitleStoryLine"
+            app:layout_constraintTop_toBottomOf="@+id/tv_desc_story_line" />
+
+        <TextView
             android:id="@+id/tvCompanies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/production_companies_text"
             android:textColor="@color/title_text"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tvTitleStoryLine"
-            app:layout_constraintTop_toBottomOf="@id/tv_desc_story_line" />
+            app:layout_constraintTop_toBottomOf="@+id/rvTrailers" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTrailers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_list_videos" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProductionCompanies"

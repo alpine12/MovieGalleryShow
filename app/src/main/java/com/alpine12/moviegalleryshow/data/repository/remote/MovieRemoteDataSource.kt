@@ -1,7 +1,9 @@
 package com.alpine12.moviegalleryshow.data.repository.remote
 
 import com.alpine12.moviegalleryshow.data.model.ResultData
-import com.alpine12.moviegalleryshow.data.model.movie.DetailMovie
+import com.alpine12.moviegalleryshow.data.model.detailmovie.DetailMovie
+import com.alpine12.moviegalleryshow.data.model.detailmovie.ResponseVideos
+import com.alpine12.moviegalleryshow.data.model.detailmovie.Videos
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.network.ApiService
 import com.alpine12.moviegalleryshow.utils.ErrorUtils
@@ -43,6 +45,9 @@ class MovieRemoteDataSource @Inject constructor(
             defaultErrorMessage = defaultError
         )
     }
+
+    suspend fun fetchVideos(idMovie: Int): ResultData<ResponseVideos> =
+        getResponse(request = { apiService.getVideos(idMovie) }, defaultErrorMessage = defaultError)
 
     private suspend fun <T> getResponse(
         request: suspend () -> Response<T>,

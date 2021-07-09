@@ -1,6 +1,8 @@
 package com.alpine12.moviegalleryshow.data.network
 
-import com.alpine12.moviegalleryshow.data.model.movie.DetailMovie
+import com.alpine12.moviegalleryshow.data.model.detailmovie.DetailMovie
+import com.alpine12.moviegalleryshow.data.model.detailmovie.ResponseVideos
+import com.alpine12.moviegalleryshow.data.model.detailmovie.Videos
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import retrofit2.Response
 import retrofit2.http.GET
@@ -27,4 +29,7 @@ interface ApiService {
 
     @GET("movie/{movieId}")
     suspend fun getDetailMovie(@Path("movieId") movieId: Int): Response<DetailMovie>
+
+    @GET("movie/{movie_id}/videos")
+    suspend fun getVideos(@Path("movie_id") movieId: Int) : Response<ResponseVideos>
 }
