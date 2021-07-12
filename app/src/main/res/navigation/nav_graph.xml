@@ -11,12 +11,14 @@
         android:label="fragment_movie_show"
         tools:layout="@layout/fragment_movie_show" >
         <action
-            android:id="@+id/action_menu_movie_fragment_to_detailMovieFragment2"
-            app:destination="@id/detailMovieFragment2"
+            android:id="@+id/action_menu_movie_fragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="true"
-            app:popUpTo="@id/detailMovieFragment2"
-            app:popUpToInclusive="true" />
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/detailMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/menu_tv_fragment"
@@ -24,7 +26,7 @@
         android:label="fragment_tv_show"
         tools:layout="@layout/fragment_tv_show" />
     <fragment
-        android:id="@+id/detailMovieFragment2"
+        android:id="@+id/detailMovieFragment"
         android:name="com.alpine12.moviegalleryshow.ui.movie.DetailMovieFragment"
         android:label="fragment_detail_movie"
         tools:layout="@layout/fragment_detail_movie" >

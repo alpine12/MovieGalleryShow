@@ -123,14 +123,15 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
 
     override fun onMovieClick(idMovie: Int) {
         val action =
-            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment2(idMovie)
+            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
         findNavController().navigate(action)
     }
 
     override fun onPagerClick(idMovie: Int) {
         val action =
-            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment2(idMovie)
+            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
         findNavController().navigate(action)
+
     }
 
 

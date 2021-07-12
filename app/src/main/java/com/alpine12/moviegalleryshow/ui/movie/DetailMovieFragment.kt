@@ -4,8 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alpine12.moviegalleryshow.BuildConfig
 import com.alpine12.moviegalleryshow.R
@@ -34,6 +36,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentDetailMovieBinding.bind(view)
         initUi()
+        setupToolbar()
         subscribeUi()
     }
 
@@ -50,6 +53,13 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
             rvTrailers.adapter = videosAdapter
             rvTrailers.hasFixedSize()
 
+        }
+    }
+
+    private fun setupToolbar() {
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+            Toast.makeText(context, "Tekan", Toast.LENGTH_SHORT).show()
         }
     }
 
