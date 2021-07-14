@@ -2,8 +2,11 @@ package com.alpine12.moviegalleryshow.ui.movie
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.alpine12.moviegalleryshow.R
@@ -122,9 +125,16 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     }
 
     override fun onMovieClick(idMovie: Int) {
-        val action =
-            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
-        findNavController().navigate(action)
+        try {
+            val action =
+                MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
+
+            findNavController().navigateSafe(action)
+        } catch (e: Exception) {
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            Timber.e(e.message.toString())
+        }
+
     }
 
     override fun onPagerClick(idMovie: Int) {
@@ -132,6 +142,10 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
         findNavController().navigate(action)
 
+    }
+
+    fun NavController.navigateSafe(direction: NavDirections) {
+        currentDestination?.getAction(direction.actionId)?.let { navigate(direction) }
     }
 
 

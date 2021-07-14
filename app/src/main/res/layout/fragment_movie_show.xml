@@ -47,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/search_movie_series"
                     android:inputType="text"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:textColorHint="@color/text_suggestion" />
             </com.google.android.material.textfield.TextInputLayout>
