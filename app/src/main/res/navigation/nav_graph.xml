@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_tv_show" />
     <fragment
         android:id="@+id/detailMovieFragment"
-        android:name="com.alpine12.moviegalleryshow.ui.movie.DetailMovieFragment"
+        android:name="com.alpine12.moviegalleryshow.ui.detailmovie.DetailMovieFragment"
         android:label="fragment_detail_movie"
         tools:layout="@layout/fragment_detail_movie" >
         <argument
