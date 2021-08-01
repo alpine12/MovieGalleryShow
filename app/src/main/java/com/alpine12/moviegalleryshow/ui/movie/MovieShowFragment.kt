@@ -1,5 +1,6 @@
 package com.alpine12.moviegalleryshow.ui.movie
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -8,25 +9,31 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+import androidx.recyclerview.widget.RecyclerView
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.data.model.ResultData.Status.*
+import com.alpine12.moviegalleryshow.data.model.movie.Genres
 import com.alpine12.moviegalleryshow.databinding.FragmentMovieShowBinding
+import com.alpine12.moviegalleryshow.ui.movie.adapter.GenreAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.MovieAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerMovieAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerTransformer
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import okhttp3.internal.notify
 import timber.log.Timber
+import java.text.FieldPosition
 
 @AndroidEntryPoint
 class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
-    MovieAdapter.OnMovieClickListener, PagerMovieAdapter.OnPagerClick {
+    MovieAdapter.OnMovieClickListener, PagerMovieAdapter.OnPagerClick, GenreAdapter.OnGenreClickListener {
 
     private val viewModel: MovieViewModel by viewModels()
+    private lateinit var genresAdapter: GenreAdapter
     private lateinit var topRatedAdapter: MovieAdapter
     private lateinit var upComingAdapter: MovieAdapter
     private lateinit var popularMovieAdapter: PagerMovieAdapter
+    private lateinit var genreData: MutableList<Genres>
 
     private lateinit var binding: FragmentMovieShowBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,23 +46,53 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     }
 
     private fun initUi() {
+        genreData = mutableListOf()
+        genresAdapter = GenreAdapter(this)
         popularMovieAdapter = PagerMovieAdapter(this)
         topRatedAdapter = MovieAdapter(this)
         upComingAdapter = MovieAdapter(this)
 
         binding.apply {
+            rvGenres.adapter = genresAdapter
+            genresAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             viewPagerPopularMovie.adapter = popularMovieAdapter
             viewPagerPopularMovie.setPageTransformer(PagerTransformer())
             rvTopRatedMovie.adapter = topRatedAdapter
             rvTopRatedMovie.setHasFixedSize(true)
-            topRatedAdapter.stateRestorationPolicy = PREVENT_WHEN_EMPTY
+            topRatedAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             rvUpComingMovies.adapter = upComingAdapter
             rvUpComingMovies.setHasFixedSize(true)
-            upComingAdapter.stateRestorationPolicy = PREVENT_WHEN_EMPTY
+            upComingAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
     }
 
     private fun subscribeUi() {
+
+
+        viewModel.genres.observe(viewLifecycleOwner) { result ->
+
+            when (result.status) {
+
+                SUCCESS -> {
+                    val data = result.data?.genres!!
+                    genreData.addAll(data)
+                    genresAdapter.submitList(data)
+                }
+
+                LOADING -> {
+                    showToast(result.message.toString())
+                }
+
+                ERROR -> {
+                    showToast(result.message.toString())
+                }
+            }
+
+        }
+
         viewModel.popularMovieList.observe(viewLifecycleOwner) { result ->
             when (result.status) {
                 SUCCESS -> {
@@ -119,21 +156,20 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             requireActivity()
         ) { isOpen ->
             if (!isOpen) {
-                binding.textInputSearch.clearFocus()
+//                binding.textInputSearch.clearFocus()
             }
         }
     }
 
-    override fun onMovieClick(idMovie: Int) {
-        try {
-            val action =
-                MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
 
-            findNavController().navigateSafe(action)
-        } catch (e: Exception) {
-            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-            Timber.e(e.message.toString())
-        }
+    override fun onMovieClick(idMovie: Int) {
+        val action =
+            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
+        findNavController().navigateSafe(action)
+
 
     }
 
@@ -141,11 +177,26 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         val action =
             MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
         findNavController().navigate(action)
-
     }
 
-    fun NavController.navigateSafe(direction: NavDirections) {
+    private fun NavController.navigateSafe(direction: NavDirections) {
         currentDestination?.getAction(direction.actionId)?.let { navigate(direction) }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onGenreClick(genres: Genres) {
+        genreData.apply {
+            this.map {
+                it.selected = false
+                if (it.id == genres.id){
+                    it.selected =true
+                }
+            }
+        }
+        with(genresAdapter) {
+            submitList(genreData)
+            notifyDataSetChanged()
+        }
     }
 
 

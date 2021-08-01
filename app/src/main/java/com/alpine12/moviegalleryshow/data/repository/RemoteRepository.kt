@@ -3,6 +3,7 @@ package com.alpine12.moviegalleryshow.data.repository
 import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.detailmovie.DetailMovie
 import com.alpine12.moviegalleryshow.data.model.detailmovie.ResponseVideos
+import com.alpine12.moviegalleryshow.data.model.movie.ResponseGenres
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.network.ApiService
 import com.alpine12.moviegalleryshow.data.repository.remote.MovieRemoteDataSource
@@ -57,5 +58,12 @@ class RemoteRepository @Inject constructor(
             val videos = movieRemoteDataSource.fetchVideos(idMovie)
             Timber.d(videos.data.toString())
             emit(videos)
+        }.flowOn(IO)
+
+    fun getGenres(): Flow<ResultData<ResponseGenres>> =
+        flow {
+            val genres = movieRemoteDataSource.fetchGenres()
+            Timber.d(genres.status.toString())
+            emit(genres)
         }.flowOn(IO)
 }
