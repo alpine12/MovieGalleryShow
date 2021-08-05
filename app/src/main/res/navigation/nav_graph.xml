@@ -19,6 +19,9 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/detailMovieFragment" />
+        <action
+            android:id="@+id/action_menu_movie_fragment_to_showAllMovieFragment"
+            app:destination="@id/showAllMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/menu_tv_fragment"
@@ -34,4 +37,8 @@
             android:name="idMovie"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/showAllMovieFragment"
+        android:name="com.alpine12.moviegalleryshow.ui.showallmovie.ShowAllMovieFragment"
+        android:label="ShowAllMovieFragment" />
 </navigation>

@@ -20,13 +20,12 @@ import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerMovieAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerTransformer
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import okhttp3.internal.notify
 import timber.log.Timber
-import java.text.FieldPosition
 
 @AndroidEntryPoint
 class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
-    MovieAdapter.OnMovieClickListener, PagerMovieAdapter.OnPagerClick, GenreAdapter.OnGenreClickListener {
+    MovieAdapter.OnMovieClickListener, PagerMovieAdapter.OnPagerClick,
+    GenreAdapter.OnGenreClickListener {
 
     private val viewModel: MovieViewModel by viewModels()
     private lateinit var genresAdapter: GenreAdapter
@@ -53,6 +52,13 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         upComingAdapter = MovieAdapter(this)
 
         binding.apply {
+            tvSeeAllPopular.setOnClickListener {
+                val action =
+                    MovieShowFragmentDirections.actionMenuMovieFragmentToShowAllMovieFragment()
+                findNavController().navigate(action)
+            }
+
+
             rvGenres.adapter = genresAdapter
             genresAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -188,8 +194,8 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         genreData.apply {
             this.map {
                 it.selected = false
-                if (it.id == genres.id){
-                    it.selected =true
+                if (it.id == genres.id) {
+                    it.selected = true
                 }
             }
         }

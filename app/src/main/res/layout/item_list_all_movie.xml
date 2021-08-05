@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgBannerMovie"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:contentDescription="@string/img_banner_movie"
+            android:scaleType="fitXY"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/materialCardView2"
+        app:layout_constraintEnd_toEndOf="@+id/materialCardView2"
+        app:layout_constraintStart_toEndOf="@+id/materialCardView2"
+        app:layout_constraintTop_toTopOf="@+id/materialCardView2"
+        app:layout_constraintVertical_bias="0.90"
+        tools:text="8.7" />
+
+    <TextView
+        android:id="@+id/tvTitleMovie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/open_sans_semibold"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/materialCardView2"
+        app:layout_constraintTop_toTopOf="@+id/materialCardView2"
+        tools:text="@string/title_movie_text" />
+
+    <TextView
+        android:id="@+id/tvViewersMovie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/open_sans"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvTitleMovie"
+        app:layout_constraintStart_toStartOf="@+id/tvTitleMovie"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleMovie"
+        tools:text="16.777 Viewers" />
+
+    <TextView
+        android:id="@+id/tvYearMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="4dp"
+        android:textSize="12sp"
+        android:background="@drawable/rounded_border_orange"
+        android:textColor="@color/orange"
+        app:layout_constraintStart_toStartOf="@+id/tvViewersMovie"
+        app:layout_constraintTop_toBottomOf="@+id/tvViewersMovie"
+        tools:text="1995" />
+
+    <TextView
+        android:id="@+id/tvGenreMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        android:background="@drawable/rounded_border_orange"
+        android:padding="4dp"
+        android:textColor="@color/orange"
+        app:layout_constraintStart_toEndOf="@+id/tvYearMovie"
+        app:layout_constraintTop_toBottomOf="@+id/tvViewersMovie"
+        tools:text="Comedy" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
