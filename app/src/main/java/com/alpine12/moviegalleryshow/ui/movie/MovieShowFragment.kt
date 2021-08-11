@@ -83,26 +83,20 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     }
 
     private fun subscribeUi() {
-
         viewModel.genres.observe(viewLifecycleOwner) { result ->
-
             when (result.status) {
-
                 SUCCESS -> {
                     val data = result.data?.genres!!
                     genreData.addAll(data)
                     genresAdapter.submitList(data)
                 }
-
                 LOADING -> {
                     showToast(result.message.toString())
                 }
-
                 ERROR -> {
                     showToast(result.message.toString())
                 }
             }
-
         }
 
         viewModel.popularMovieList.observe(viewLifecycleOwner) { result ->
@@ -121,8 +115,8 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     Timber.i("Loadinggg")
                 }
             }
-
         }
+
         viewModel.upComingMovieList.observe(viewLifecycleOwner) { result ->
             when (result.status) {
                 SUCCESS -> {
@@ -140,8 +134,8 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     Timber.i("Loadinggg")
                 }
             }
-
         }
+
         viewModel.topRatedMovieList.observe(viewLifecycleOwner) { result ->
             when (result.status) {
                 SUCCESS -> {
@@ -159,7 +153,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     Timber.i("Loadinggg")
                 }
             }
-
         }
     }
 
@@ -168,7 +161,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             requireActivity()
         ) { isOpen ->
             if (!isOpen) {
-//                binding.textInputSearch.clearFocus()
+                binding.textInputSearch.clearFocus()
             }
         }
     }

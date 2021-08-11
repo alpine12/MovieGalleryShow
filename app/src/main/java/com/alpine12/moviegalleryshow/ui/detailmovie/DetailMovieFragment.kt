@@ -87,11 +87,17 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
                 ResultData.Status.SUCCESS -> {
                     Timber.d(it.data?.results.toString())
                     val result = it.data?.results
-                    val key = result?.get(0)?.key
-                    videosAdapter.submitList(result)
-                    binding.btnTrailer.root.setOnClickListener {
-                        intentVideos(key)
+                    val key = result?.let { videos ->
+                        if (videos.isNotEmpty()){
+                            binding.btnTrailer.root.setOnClickListener {
+                                intentVideos(videos[0].key)
+                            }
+                        }else{
+                            binding.btnTrailer.root.visibility = View.GONE
+                        }
                     }
+                    videosAdapter.submitList(result)
+
                 }
 
                 ResultData.Status.ERROR -> {

@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //Paging 3
-    def paging_version = "3.0.0"
+    def paging_version = "3.0.1"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
     //Image loader glide

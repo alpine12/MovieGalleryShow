@@ -7,17 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
-import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.movie.Movie
-import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
-import com.alpine12.moviegalleryshow.data.repository.RemoteDataSource
+import com.alpine12.moviegalleryshow.data.repository.RemotePagingDataSource
 import com.alpine12.moviegalleryshow.data.repository.RemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,22 +19,28 @@ import javax.inject.Inject
 @HiltViewModel
 class ShowAllMovieVewModel @Inject constructor(
     private val repository: RemoteRepository,
-    private val remoteDataSource: RemoteDataSource
+    private val remotePagingDataSource: RemotePagingDataSource
 ) :
     ViewModel() {
 
-    private val _movieList = MutableLiveData<ResultData<ResponseMovie>>()
-    val movieList: LiveData<ResultData<ResponseMovie>> = _movieList
+    private val _movieType = MutableLiveData<String>()
+
+    private val _moviePaging = MutableLiveData<PagingData<Movie>>()
+    val moviePaging: LiveData<PagingData<Movie>> = _moviePaging
 
 
-    fun getPagingMovies() : Flow<PagingData<Movie>> =
-        remoteDataSource.getAllMovies("popular").cachedIn(viewModelScope)
+    fun setMovieType(movieType: String) {
+       if (_movieType.value == movieType){
+           return
+       }
 
-    fun getAllMovie(movieType: String, page: Int) = viewModelScope.launch {
-
-        repository.getAllMovie(movieType, page).collect {
-            _movieList.postValue(it)
-        }
+        _movieType.value = movieType
+        getPagingMovies(_movieType.value.toString())
     }
 
+    private fun getPagingMovies(movieType: String) = viewModelScope.launch {
+        remotePagingDataSource.getAllMovies(movieType).cachedIn(viewModelScope).collectLatest {
+            _moviePaging.postValue(it)
+        }
+    }
 }

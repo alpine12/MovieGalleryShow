@@ -42,10 +42,10 @@ class AllMovieAdapter(private val listener: OnItemCLickListener) :
             binding.apply {
                 tvTitleMovie.text = movie.title
                 tvViewersMovie.text = "${movie.popularity} Viewers"
-                tvYearMovie.text = Utils.DateFormat(movie.release_date, "yyyy-mm-dd", "yyyy")
-                tvGenreMovie.text = movie.genre_ids[0].let {
-                    Constant.Genres.getValue(it)
-                }
+//                tvYearMovie.text = Utils.DateFormat(movie.release_date, "yyyy-mm-dd", "yyyy")
+//                tvGenreMovie.text = movie.genre_ids[0].let {
+//                    Constant.Genres.getValue(it)
+//                }
                 tvRatingMovie.text = "${movie.vote_average}"
                 Glide.with(root).load(BuildConfig.imageUrl + movie.backdrop_path)
                     .transition(DrawableTransitionOptions.withCrossFade())
@@ -68,5 +68,4 @@ class AllMovieAdapter(private val listener: OnItemCLickListener) :
     interface OnItemCLickListener {
         fun onItemClick(idMovie: Int)
     }
-
 }

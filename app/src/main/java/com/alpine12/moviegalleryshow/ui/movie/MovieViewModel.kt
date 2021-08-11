@@ -41,6 +41,7 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     }
 
     private fun getGenres() = viewModelScope.launch {
+        Timber.d("Collected genres")
         remoteRepository.getGenres().collect {
             it.data.let {data ->
                 data?.genres?.get(0)?.selected = true
@@ -53,12 +54,14 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
 
     private fun getPopularMovie() = viewModelScope.launch {
         remoteRepository.getPopularMovie().collect {
+            Timber.d("Collected popular")
             _popularMovieList.postValue(it)
         }
     }
 
     private fun getTopRated() = viewModelScope.launch {
         remoteRepository.getTopRatedMovie().collect {
+            Timber.d("Collected popular top rated")
             _topRatedMovieList.postValue(it)
         }
     }
@@ -66,7 +69,6 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     private fun getUpComing() = viewModelScope.launch {
         remoteRepository.getNowUpComingMovie().collect {
             _upComingMovieList.postValue(it)
-           Timber.d("Size of list ${ it?.data?.results?.size}")
         }
     }
 }
