@@ -41,7 +41,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         keyboardEvent()
         initUi()
         subscribeUi()
-
+        onClick()
     }
 
     private fun initUi() {
@@ -52,13 +52,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         upComingAdapter = MovieAdapter(this)
 
         binding.apply {
-            tvSeeAllPopular.setOnClickListener {
-                val action =
-                    MovieShowFragmentDirections.actionMenuMovieFragmentToShowAllMovieFragment()
-                findNavController().navigate(action)
-            }
-
-
             rvGenres.adapter = genresAdapter
             genresAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -75,8 +68,21 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         }
     }
 
-    private fun subscribeUi() {
+    private fun onClick() {
+       binding.tvSeeAllPopular.setOnClickListener {
+            val action =
+                MovieShowFragmentDirections.actionMenuMovieFragmentToShowAllMovieFragment("popular")
+            findNavController().navigate(action)
+        }
 
+        binding.tvYouMayLike.setOnClickListener {
+            val action =
+                MovieShowFragmentDirections.actionMenuMovieFragmentToShowAllMovieFragment("top_rated")
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun subscribeUi() {
 
         viewModel.genres.observe(viewLifecycleOwner) { result ->
 
@@ -126,8 +132,8 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     }
                 }
                 ERROR -> {
-                    result.message?.let {
-                        Timber.e(it.toString())
+                    result.message?.let {msg ->
+                        Timber.e(msg.toString())
                     }
                 }
                 LOADING -> {

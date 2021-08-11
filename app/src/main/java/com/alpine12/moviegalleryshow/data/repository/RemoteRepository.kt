@@ -21,8 +21,13 @@ class RemoteRepository @Inject constructor(
     val apiService: ApiService
 ) {
 
-    fun getPopularMovie(): Flow<ResultData<ResponseMovie>?> {
+    fun getAllMovie(movieType :String , page : Int) : Flow<ResultData<ResponseMovie>?> = flow {
+        emit(ResultData.loading())
+        val result = movieRemoteDataSource.fetchAllMovie(movieType, page)
+        emit(result)
+    } .flowOn(IO)
 
+    fun getPopularMovie(): Flow<ResultData<ResponseMovie>?> {
         return flow {
             Timber.i("logistik  popular I'm working in thread ${Thread.currentThread().name}")
             emit(ResultData.loading())
@@ -52,6 +57,8 @@ class RemoteRepository @Inject constructor(
             val detailMovie = movieRemoteDataSource.fetchDetailMovie(idMovie)
             emit(detailMovie)
         }.flowOn(IO)
+
+
 
     fun getVideos(idMovie: Int): Flow<ResultData<ResponseVideos>?> =
         flow {

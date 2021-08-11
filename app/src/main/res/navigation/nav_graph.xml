@@ -40,5 +40,12 @@
     <fragment
         android:id="@+id/showAllMovieFragment"
         android:name="com.alpine12.moviegalleryshow.ui.showallmovie.ShowAllMovieFragment"
-        android:label="ShowAllMovieFragment" />
+        android:label="ShowAllMovieFragment" >
+        <action
+            android:id="@+id/action_showAllMovieFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
+        <argument
+            android:name="movieType"
+            app:argType="string" />
+    </fragment>
 </navigation>

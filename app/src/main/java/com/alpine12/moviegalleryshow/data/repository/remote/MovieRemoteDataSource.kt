@@ -18,6 +18,15 @@ class MovieRemoteDataSource @Inject constructor(
     private val retrofit: Retrofit
 ) {
     private val defaultError = "Error fetching Movie list"
+
+
+    suspend fun fetchAllMovie(movie : String, page : Int) : ResultData<ResponseMovie>{
+        return getResponse(
+            request = {apiService.getAllMovie(movie, page)},
+            defaultErrorMessage = defaultError
+        )
+    }
+
     suspend fun fetchPopularMovies(): ResultData<ResponseMovie> {
         return getResponse(
             request = { apiService.getPopularMovie() },
