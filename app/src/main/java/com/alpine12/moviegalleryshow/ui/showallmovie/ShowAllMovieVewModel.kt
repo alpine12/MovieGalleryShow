@@ -33,7 +33,6 @@ class ShowAllMovieVewModel @Inject constructor(
        if (_movieType.value == movieType){
            return
        }
-
         _movieType.value = movieType
         getPagingMovies(_movieType.value.toString())
     }
