@@ -2,6 +2,10 @@ package com.alpine12.moviegalleryshow.utils
 
 class Constant {
     companion object {
+
+        const val STARTING_PAGE_INDEX = 1
+        const val NETWORK_PAGE_SIZE = 20
+
         const val NOW_PLAYING = "now_playing"
         const val UPCOMING = "upcoming"
         const val POPULAR = "popular"

@@ -66,6 +66,7 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     private fun getUpComing() = viewModelScope.launch {
         remoteRepository.getNowUpComingMovie().collect {
             _upComingMovieList.postValue(it)
+           Timber.d("Size of list ${ it?.data?.results?.size}")
         }
     }
 }

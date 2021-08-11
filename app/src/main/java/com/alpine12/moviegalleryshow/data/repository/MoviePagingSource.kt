@@ -4,42 +4,55 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.alpine12.moviegalleryshow.data.model.movie.Movie
 import com.alpine12.moviegalleryshow.data.network.ApiService
+import com.alpine12.moviegalleryshow.utils.Constant
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
+import javax.inject.Inject
 
-private const val MOVIE_STARTING_PAGE_INDEX = 1
 
-
-class MoviePagingSource(private val apiService: ApiService) :
-    PagingSource<Int, Movie>() {
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
-        TODO("Not yet implemented")
-    }
-
+class MoviePagingSource (
+    private val movieType: String,
+    val apiService: ApiService
+) : PagingSource<Int, Movie>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
-        TODO("Not yet implemented")
-    }
-//    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
-//        val pageIndex = params.key ?: MOVIE_STARTING_PAGE_INDEX
-//        return try {
-//            val response = apiService.getNowPlayingMovie()
-//            val movies = response!!.results
+        val indexPage = params.key ?: Constant.STARTING_PAGE_INDEX
+
+        return try {
+            val response = apiService.getAllMovie(movieType, indexPage)
+            val movie = response.body()?.results
+            val nextKey =
+                if (movie!!.isEmpty()) {
+                    null
+                } else {
+                   indexPage +1
+                }
+            Timber.d("paging call data remote $indexPage , next page $nextKey ")
 //            LoadResult.Page(
-//                data = movies,
-//                nextKey = if (pageIndex == MOVIE_STARTING_PAGE_INDEX) null else pageIndex - 1,
-//                prevKey = if (movies.isEmpty()) null else pageIndex + 1
+//                data = movie,
+//                prevKey = if (indexPage == Constant.STARTING_PAGE_INDEX) null else indexPage,
+//                nextKey = nextKey
 //            )
-//
-//        } catch (exception: IOException) {
-//            LoadResult.Error(exception)
-//        } catch (exception: HttpException) {
-//            LoadResult.Error(exception)
-//        } catch (e: Exception) {
-//            LoadResult.Error(e.fillInStackTrace())
-//        }
-//    }
+
+            LoadResult.Page(
+                data = movie,
+                prevKey = if (indexPage == Constant.STARTING_PAGE_INDEX) null else indexPage-1,
+                nextKey = nextKey
+            )
+
+
+        } catch (e: IOException) {
+            return LoadResult.Error(e)
+        } catch (e: HttpException) {
+            return LoadResult.Error(e)
+        }
+
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        }
+    }
 }
