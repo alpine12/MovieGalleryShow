@@ -3,23 +3,25 @@ package com.alpine12.moviegalleryshow.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.alpine12.moviegalleryshow.data.model.movie.Movie
 import com.alpine12.moviegalleryshow.data.network.ApiService
+import com.alpine12.moviegalleryshow.data.repository.pagging.MoviePagingSource
 import com.alpine12.moviegalleryshow.utils.Constant
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RemotePagingDataSource @Inject constructor(private val apiService: ApiService) {
+class RemotePagingDataSource @Inject constructor(
+    private val apiService: ApiService
+) {
     fun getAllMovies(movieType: String): Flow<PagingData<Movie>> {
-       return Pager(
+        return Pager(
             config = PagingConfig(
-                Constant.NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
+                pageSize = Constant.NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+                initialLoadSize = 2,
+
             ),
             pagingSourceFactory = {
                 MoviePagingSource(movieType, apiService)

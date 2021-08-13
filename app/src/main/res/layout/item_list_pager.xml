@@ -17,11 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:background="@color/orange"
+            android:background="@color/blue_grey_100"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_movie_nav"
             android:contentDescription="@string/movie_poster" />
 
         <FrameLayout

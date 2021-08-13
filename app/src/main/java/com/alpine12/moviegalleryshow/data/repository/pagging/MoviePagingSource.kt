@@ -1,4 +1,4 @@
-package com.alpine12.moviegalleryshow.data.repository
+package com.alpine12.moviegalleryshow.data.repository.pagging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -17,6 +17,7 @@ class MoviePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         val indexPage = params.key ?: Constant.STARTING_PAGE_INDEX
         return try {
+            Timber.d("Paging success")
             val response = apiService.getAllMovie(movieType, indexPage)
             val movie = response.body()?.results
             val nextKey =
@@ -25,19 +26,23 @@ class MoviePagingSource(
                 } else {
                     indexPage + 1
                 }
+            Timber.d("Paging success 2")
             LoadResult.Page(
                 data = movie,
-                prevKey =if (indexPage == Constant.STARTING_PAGE_INDEX) null else indexPage - 1 ,
+                prevKey = if (indexPage == Constant.STARTING_PAGE_INDEX) null else indexPage - 1,
                 nextKey = nextKey
             )
-
-
-
         } catch (e: IOException) {
+            Timber.d("Paging failed ${e.message.toString()}")
             return LoadResult.Error(e)
         } catch (e: HttpException) {
+            Timber.d("Paging failed ${e.message.toString()}")
             return LoadResult.Error(e)
         } catch (e: NullPointerException) {
+            Timber.d("Paging failed ${e.message.toString()}")
+            return LoadResult.Error(e)
+        } catch (e: Throwable) {
+            Timber.d("Paging failed ${e.message.toString()}")
             return LoadResult.Error(e)
         }
     }

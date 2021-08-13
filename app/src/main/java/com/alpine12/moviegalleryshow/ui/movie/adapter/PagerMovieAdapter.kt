@@ -47,6 +47,7 @@ class PagerMovieAdapter(private val onPagerClick: OnPagerClick) :
                 .load(BuildConfig.imageUrl + movie.backdrop_path)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .error(R.drawable.ic_movie_nav)
+                .centerCrop()
                 .into(binding.ivMoviePoster)
 
             binding.tvTitleMovie.text = movie.title

@@ -25,6 +25,7 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("State Movie Created")
         binding = FragmentListAllMoviesBinding.bind(view)
         initUi()
         subscribeOnUi()
@@ -33,21 +34,32 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
     private fun initUi() {
         adapterPager = AllMoviesPagedAdapter(this)
 
-        binding.tvTitleBar.text = args.movieType
+        args.movieType.apply {
+            val title = if (this.toString() == "top_rated") {
+                "You may like"
+            } else {
+                this.toString()
+            }
+            binding.tvTitleBar.text = title
+        }
+
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
         binding.rvAllMovie.adapter = adapterPager
         adapterPager.addLoadStateListener { state ->
+
+            Timber.d("State 1 $state")
+            Timber.d("State 2 ${state.source}")
             when (state.source.refresh) {
                 is LoadState.NotLoading -> {
                     Timber.d("pager not Loading")
                 }
                 LoadState.Loading -> {
-                    Timber.d("pager state  Loading")
+                    Timber.d("pager Loading")
                 }
                 is LoadState.Error -> {
-                    Timber.d("pager state  Error")
+                    Timber.d("pager Error")
                 }
             }
         }

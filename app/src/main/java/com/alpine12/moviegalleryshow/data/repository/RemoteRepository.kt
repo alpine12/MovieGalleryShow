@@ -67,7 +67,7 @@ class RemoteRepository @Inject constructor(
             emit(videos)
         }.flowOn(IO)
 
-    fun getGenres(): Flow<ResultData<ResponseGenres>> =
+    fun getGenres(): Flow<ResultData<ResponseGenres>?> =
         flow {
             val genres = movieRemoteDataSource.fetchGenres()
             Timber.d(genres.status.toString())

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alpine12.moviegalleryshow.data.model.ResultData
-import com.alpine12.moviegalleryshow.data.model.movie.Genres
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseGenres
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.repository.RemoteRepository
@@ -34,21 +33,26 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
 
     init {
         getGenres()
+        getUpComing()
         getPopularMovie()
         getTopRated()
-        getUpComing()
+
 
     }
 
     private fun getGenres() = viewModelScope.launch {
         Timber.d("Collected genres")
         remoteRepository.getGenres().collect {
-            it.data.let {data ->
+            it?.data.let { data ->
                 data?.genres?.get(0)?.selected = true
             }
-
-            Timber.d(it.data!!.genres.toString())
             _genres.postValue(it)
+        }
+    }
+
+    private fun getUpComing() = viewModelScope.launch {
+        remoteRepository.getNowUpComingMovie().collect {
+            _upComingMovieList.postValue(it)
         }
     }
 
@@ -63,12 +67,6 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
         remoteRepository.getTopRatedMovie().collect {
             Timber.d("Collected popular top rated")
             _topRatedMovieList.postValue(it)
-        }
-    }
-
-    private fun getUpComing() = viewModelScope.launch {
-        remoteRepository.getNowUpComingMovie().collect {
-            _upComingMovieList.postValue(it)
         }
     }
 }

@@ -67,7 +67,6 @@ class MovieRemoteDataSource @Inject constructor(
         defaultErrorMessage: String
     ): ResultData<T> {
         return try {
-            Timber.i(" I'm working in thread ${Thread.currentThread().name}")
             val result = request.invoke()
             if (result.isSuccessful) {
                 return ResultData.success(result.body())
@@ -81,7 +80,9 @@ class MovieRemoteDataSource @Inject constructor(
         } catch (e: HttpException) {
             ResultData.error("Error : ${e.message()}", null)
         } catch (e: Throwable) {
-            ResultData.error("Unknown Error ${e.message} and ${e.cause}", null)
+            ResultData.error("Unknown Error trowable ${e.message} and ${e.stackTrace.toString()}", null)
+        } catch (e : NullPointerException){
+            ResultData.error("Unknown Error null ${e.message} and ${e.stackTrace}", null)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.alpine12.moviegalleryshow.ui.movie
 
 import android.annotation.SuppressLint
+import android.icu.text.CaseMap
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -21,6 +22,7 @@ import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerTransformer
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
+import java.time.chrono.JapaneseEra
 
 @AndroidEntryPoint
 class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
@@ -42,6 +44,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         initUi()
         subscribeUi()
         onClick()
+     
     }
 
     private fun initUi() {
@@ -92,9 +95,11 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 }
                 LOADING -> {
                     showToast(result.message.toString())
+                    log("GetFromAPi", result.message.toString())
                 }
                 ERROR -> {
                     showToast(result.message.toString())
+                    log("GetFromAPi", result.message.toString())
                 }
             }
         }
@@ -108,7 +113,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 }
                 ERROR -> {
                     result.message?.let {
-                        Timber.e(it.toString())
+                        log("GetFromAPi", it)
                     }
                 }
                 LOADING -> {
@@ -127,7 +132,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 }
                 ERROR -> {
                     result.message?.let {msg ->
-                        Timber.e(msg.toString())
+                        log("GetFromAPi", msg)
                     }
                 }
                 LOADING -> {
@@ -146,7 +151,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 }
                 ERROR -> {
                     result.message?.let {
-                        Timber.e(it.toString())
+                      log("GetFromAPi", it)
                     }
                 }
                 LOADING -> {
@@ -168,6 +173,10 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun log(title: String,message: String){
+        Timber.d("$title pesan $message")
     }
 
     override fun onMovieClick(idMovie: Int) {
@@ -203,6 +212,4 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             notifyDataSetChanged()
         }
     }
-
-
 }
