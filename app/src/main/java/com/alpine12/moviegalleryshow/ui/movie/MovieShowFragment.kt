@@ -2,6 +2,7 @@ package com.alpine12.moviegalleryshow.ui.movie
 
 import android.annotation.SuppressLint
 import android.icu.text.CaseMap
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -14,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.data.model.ResultData.Status.*
 import com.alpine12.moviegalleryshow.data.model.movie.Genres
+import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentMovieShowBinding
 import com.alpine12.moviegalleryshow.ui.movie.adapter.GenreAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.MovieAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerMovieAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerTransformer
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
@@ -31,17 +34,20 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
 
     private val viewModel: MovieViewModel by viewModels()
     private lateinit var genresAdapter: GenreAdapter
+    private lateinit var upComingAdapter: PagerMovieAdapter
     private lateinit var topRatedAdapter: MovieAdapter
-    private lateinit var upComingAdapter: MovieAdapter
-    private lateinit var popularMovieAdapter: PagerMovieAdapter
+    private lateinit var popularMovieAdapter: MovieAdapter
     private lateinit var genreData: MutableList<Genres>
+    private lateinit var errorDialog: BottomSheetDialog
 
     private lateinit var binding: FragmentMovieShowBinding
+    private lateinit var sheetBinding: BottomsheetErrorBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMovieShowBinding.bind(view)
         keyboardEvent()
         initUi()
+        initShimmer()
         subscribeUi()
         onClick()
      
@@ -50,25 +56,39 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     private fun initUi() {
         genreData = mutableListOf()
         genresAdapter = GenreAdapter(this)
-        popularMovieAdapter = PagerMovieAdapter(this)
+        upComingAdapter = PagerMovieAdapter(this)
+        popularMovieAdapter = MovieAdapter(this)
         topRatedAdapter = MovieAdapter(this)
-        upComingAdapter = MovieAdapter(this)
+
 
         binding.apply {
             rvGenres.adapter = genresAdapter
             genresAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-            viewPagerPopularMovie.adapter = popularMovieAdapter
-            viewPagerPopularMovie.setPageTransformer(PagerTransformer())
+
+            viewPagerUpcomingMovie.adapter = upComingAdapter
+            viewPagerUpcomingMovie.setPageTransformer(PagerTransformer())
+
             rvTopRatedMovie.adapter = topRatedAdapter
             rvTopRatedMovie.setHasFixedSize(true)
             topRatedAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-            rvUpComingMovies.adapter = upComingAdapter
-            rvUpComingMovies.setHasFixedSize(true)
+            rvPopularMovie.adapter = popularMovieAdapter
+            rvPopularMovie.setHasFixedSize(true)
             upComingAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
+
+       sheetBinding = BottomsheetErrorBinding.inflate(layoutInflater)
+       errorDialog = BottomSheetDialog(requireContext())
+       errorDialog.setContentView(sheetBinding.root)
+        errorDialog.setCancelable(false)
+    }
+
+    private fun initShimmer(){
+        binding.containerShimmerPager.startShimmer()
+        binding.containerShimmerPopular.startShimmer()
+        binding.containerShimmerTopRated.startShimmer()
     }
 
     private fun onClick() {
@@ -94,30 +114,10 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     genresAdapter.submitList(data)
                 }
                 LOADING -> {
-                    showToast(result.message.toString())
                     log("GetFromAPi", result.message.toString())
                 }
                 ERROR -> {
-                    showToast(result.message.toString())
                     log("GetFromAPi", result.message.toString())
-                }
-            }
-        }
-
-        viewModel.popularMovieList.observe(viewLifecycleOwner) { result ->
-            when (result.status) {
-                SUCCESS -> {
-                    result.data?.results.let {
-                        popularMovieAdapter.submitList(it)
-                    }
-                }
-                ERROR -> {
-                    result.message?.let {
-                        log("GetFromAPi", it)
-                    }
-                }
-                LOADING -> {
-                    Timber.i("Loadinggg")
                 }
             }
         }
@@ -128,15 +128,35 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     result.data?.results.let {
                         Timber.d(it.toString())
                         upComingAdapter.submitList(it)
+                        getLoadingUpcomingPager(false);
                     }
                 }
                 ERROR -> {
                     result.message?.let {msg ->
-                        log("GetFromAPi", msg)
+                        showError()
                     }
                 }
                 LOADING -> {
-                    Timber.i("Loadinggg")
+                   getLoadingUpcomingPager(true)
+                }
+            }
+        }
+
+        viewModel.popularMovieList.observe(viewLifecycleOwner) { result ->
+            when (result.status) {
+                SUCCESS -> {
+                    result.data?.results.let {
+                        popularMovieAdapter.submitList(it)
+                        getLoadingPopular(false)
+                    }
+                }
+                ERROR -> {
+                    result.message?.let {
+                        showError()
+                    }
+                }
+                LOADING -> {
+                  getLoadingPopular(true)
                 }
             }
         }
@@ -145,20 +165,67 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             when (result.status) {
                 SUCCESS -> {
                     result.data?.results.let {
-                        Timber.d(it.toString())
                         topRatedAdapter.submitList(it)
+                        getLoadingTopRated(false)
                     }
                 }
                 ERROR -> {
                     result.message?.let {
-                      log("GetFromAPi", it)
+                      showError()
                     }
                 }
                 LOADING -> {
-                    Timber.i("Loadinggg")
+                   getLoadingTopRated(true)
                 }
             }
         }
+    }
+
+    private fun getLoadingUpcomingPager(loading : Boolean){
+        if (loading){
+            binding.viewPagerUpcomingMovie.visibility =View.INVISIBLE
+            binding.containerShimmerPager.visibility = View.VISIBLE
+        }else{
+            binding.viewPagerUpcomingMovie.visibility = View.VISIBLE
+            binding.containerShimmerPager.visibility = View.INVISIBLE
+            errorDialog.dismiss()
+        }
+    }
+
+    private fun getLoadingPopular(loading: Boolean){
+        binding.apply {
+            if (loading){
+                rvPopularMovie.visibility = View.INVISIBLE
+                containerShimmerPopular.visibility = View.VISIBLE
+            }else{
+                rvPopularMovie.visibility = View.VISIBLE
+                containerShimmerPopular.visibility = View.INVISIBLE
+                errorDialog.dismiss()
+            }
+        }
+    }
+
+    private fun getLoadingTopRated(loading: Boolean){
+        binding.apply {
+            if (loading){
+                rvTopRatedMovie.visibility = View.INVISIBLE
+                containerShimmerTopRated.visibility = View.VISIBLE
+            }else{
+                rvTopRatedMovie.visibility = View.VISIBLE
+                containerShimmerTopRated.visibility = View.INVISIBLE
+                errorDialog.dismiss()
+            }
+        }
+    }
+
+    private fun showError(){
+        if (!errorDialog.isShowing){
+            errorDialog.show()
+            sheetBinding.btnOk.setOnClickListener {
+               viewModel.retryConnection()
+            }
+        }
+
     }
 
     private fun keyboardEvent() {
@@ -169,10 +236,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 binding.textInputSearch.clearFocus()
             }
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun log(title: String,message: String){

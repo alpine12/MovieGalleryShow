@@ -126,6 +126,10 @@ dependencies {
 
     //Circular imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Shimmer
+    def shimmer_version ="shimmer:0.5.0"
+    implementation "com.facebook.shimmer:$shimmer_version"
 }
 kapt {
     correctErrorTypes true

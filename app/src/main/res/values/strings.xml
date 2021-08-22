@@ -19,4 +19,8 @@
     <string name="img_companies">img companies</string>
     <string name="trailers">Trailers</string>
     <string name="img_banner_movie">Img Banner Movie</string>
+    <string name="title_error">Terjadi masalah !</string>
+    <string name="title_error_content">Tenang, masalah akan segera teratasi</string>
+    <string name="title_error_ok">Coba lagi</string>
+    <string name="title_content_des_info">Image</string>
 </resources>

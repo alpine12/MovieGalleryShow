@@ -32,12 +32,18 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
 
 
     init {
+        fetchMovie()
+    }
+
+    fun retryConnection(){
+        fetchMovie()
+    }
+
+    private fun fetchMovie(){
         getGenres()
         getUpComing()
         getPopularMovie()
         getTopRated()
-
-
     }
 
     private fun getGenres() = viewModelScope.launch {

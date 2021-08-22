@@ -87,45 +87,64 @@
 
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPagerPopularMovie"
+                android:id="@+id/viewPagerUpcomingMovie"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvGenres" />
 
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/popular_text"
-                            android:textColor="@color/title_text"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="@+id/viewPagerPopularMovie"
-                            app:layout_constraintTop_toBottomOf="@+id/viewPagerPopularMovie" />
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/containerShimmerPager"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvGenres">
 
-                        <TextView
-                            android:id="@+id/tvSeeAllPopular"
-                            android:padding="8dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/see_all_text"
-                            android:textColor="@color/orange"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/textView"
-                            app:layout_constraintEnd_toEndOf="@+id/rvUpComingMovies"
-                            app:layout_constraintTop_toTopOf="@+id/textView" />
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+                 <include layout="@layout/placeholder_movie_pager" />
+             </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/popular_text"
+                android:textColor="@color/title_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/viewPagerUpcomingMovie"
+                app:layout_constraintTop_toBottomOf="@+id/viewPagerUpcomingMovie" />
+
+            <TextView
+                android:id="@+id/tvSeeAllPopular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/see_all_text"
+                android:textColor="@color/orange"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="@+id/rvPopularMovie"
+                app:layout_constraintTop_toTopOf="@+id/textView" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvUpComingMovies"
+                android:id="@+id/rvPopularMovie"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="240dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
@@ -137,35 +156,51 @@
                 tools:itemCount="5"
                 tools:listitem="@layout/item_list_movie" />
 
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/you_may_like_text"
-                            android:textColor="@color/title_text"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="@+id/rvUpComingMovies"
-                            app:layout_constraintTop_toBottomOf="@+id/rvUpComingMovies" />
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/containerShimmerPopular"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/rvPopularMovie"
+                app:layout_constraintStart_toStartOf="@+id/rvPopularMovie"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
 
-                        <TextView
-                            android:padding="8dp"
-                            android:id="@+id/tvYouMayLike"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/see_all_text"
-                            android:textColor="@color/orange"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                            app:layout_constraintEnd_toEndOf="@+id/rvUpComingMovies"
-                            app:layout_constraintTop_toTopOf="@+id/textView2" />
+                <include
+                    layout="@layout/placeholder_movie_show"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/you_may_like_text"
+                android:textColor="@color/title_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/rvPopularMovie"
+                app:layout_constraintTop_toBottomOf="@+id/rvPopularMovie" />
+
+            <TextView
+                android:id="@+id/tvYouMayLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/see_all_text"
+                android:textColor="@color/orange"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintEnd_toEndOf="@+id/rvPopularMovie"
+                app:layout_constraintTop_toTopOf="@+id/textView2" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTopRatedMovie"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="240dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
@@ -173,11 +208,28 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/rvUpComingMovies"
-                app:layout_constraintStart_toStartOf="@+id/rvUpComingMovies"
+                app:layout_constraintEnd_toEndOf="@+id/rvPopularMovie"
+                app:layout_constraintStart_toStartOf="@+id/rvPopularMovie"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_list_movie" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/containerShimmerTopRated"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                <include layout="@layout/placeholder_movie_show" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
