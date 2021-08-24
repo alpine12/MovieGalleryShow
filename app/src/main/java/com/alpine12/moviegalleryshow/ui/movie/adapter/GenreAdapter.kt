@@ -1,5 +1,6 @@
 package com.alpine12.moviegalleryshow.ui.movie.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -42,11 +43,13 @@ class GenreAdapter(private val listener: OnGenreClickListener) :
             }
         }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         private fun changeBg() {
             binding.parentCategories.background =
                 binding.root.context.getDrawable(R.drawable.rounded_corner_textview)
         }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         private fun defaultBg() {
             binding.parentCategories.background = binding.root.context.getDrawable(R.drawable.rounded_corner_textview_black)
         }

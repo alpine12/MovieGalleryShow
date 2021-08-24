@@ -22,6 +22,7 @@ import com.alpine12.moviegalleryshow.ui.movie.adapter.MovieAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerMovieAdapter
 import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerTransformer
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
@@ -188,6 +189,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         }else{
             binding.viewPagerUpcomingMovie.visibility = View.VISIBLE
             binding.containerShimmerPager.visibility = View.INVISIBLE
+            binding.containerShimmerPager.stopShimmer()
             errorDialog.dismiss()
         }
     }
@@ -200,6 +202,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             }else{
                 rvPopularMovie.visibility = View.VISIBLE
                 containerShimmerPopular.visibility = View.INVISIBLE
+                binding.containerShimmerPopular.stopShimmer()
                 errorDialog.dismiss()
             }
         }
@@ -213,6 +216,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             }else{
                 rvTopRatedMovie.visibility = View.VISIBLE
                 containerShimmerTopRated.visibility = View.INVISIBLE
+                binding.containerShimmerTopRated.stopShimmer()
                 errorDialog.dismiss()
             }
         }
@@ -246,8 +250,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         val action =
             MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
         findNavController().navigateSafe(action)
-
-
     }
 
     override fun onPagerClick(idMovie: Int) {
@@ -269,6 +271,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     it.selected = true
                 }
             }
+            Snackbar.make(binding.root, genres.name, Snackbar.LENGTH_SHORT).show()
         }
         with(genresAdapter) {
             submitList(genreData)

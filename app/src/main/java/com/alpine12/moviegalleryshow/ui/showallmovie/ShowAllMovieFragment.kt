@@ -1,7 +1,9 @@
 package com.alpine12.moviegalleryshow.ui.showallmovie
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,6 +31,7 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
         binding = FragmentListAllMoviesBinding.bind(view)
         initUi()
         subscribeOnUi()
+        initShimmer()
     }
 
     private fun initUi() {
@@ -47,22 +50,43 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
             findNavController().navigateUp()
         }
         binding.rvAllMovie.adapter = adapterPager
-        adapterPager.addLoadStateListener { state ->
+        adapterPager.addLoadStateListener { loadState ->
 
-            Timber.d("State 1 $state")
-            Timber.d("State 2 ${state.source}")
-            when (state.source.refresh) {
-                is LoadState.NotLoading -> {
-                    Timber.d("pager not Loading")
+            binding.apply {
+
+
+                if (loadState.source.refresh is LoadState.NotLoading && adapterPager.itemCount > 1){
+                    containerShimmer.isVisible = false
                 }
-                LoadState.Loading -> {
-                    Timber.d("pager Loading")
-                }
-                is LoadState.Error -> {
-                    Timber.d("pager Error")
+
+                if (loadState.source.refresh is LoadState.Error){
+                    showErrorMessage()
                 }
             }
         }
+    }
+
+    private fun initShimmer() {
+        binding.containerShimmer.startShimmer()
+    }
+
+    private fun getLoadingMovie() {
+        binding.containerShimmer.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+    }
+
+    private fun showErrorMessage() {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setMessage("Terjadi masalah!")
+            .setTitle("Ada masalah")
+            .setNeutralButton("Coba Lagi") { _, _ ->
+                adapterPager.refresh()
+            }
+            .setCancelable(false)
+            .create()
+            .show()
     }
 
     private fun subscribeOnUi() {
