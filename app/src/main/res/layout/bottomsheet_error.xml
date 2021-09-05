@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,24 +27,24 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/title_content_des_info"
         android:src="@drawable/ic_error_24"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        android:contentDescription="@string/title_content_des_info"/>
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <TextView
         android:id="@+id/tvError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_error"
         android:layout_marginTop="16dp"
+        android:text="@string/title_error"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imgError"
         app:layout_constraintStart_toStartOf="@+id/imgError"
-        app:layout_constraintTop_toBottomOf="@+id/imgError"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/colorText"/>
+        app:layout_constraintTop_toBottomOf="@+id/imgError" />
 
     <TextView
         android:id="@+id/tvErrorContent"
@@ -55,17 +54,19 @@
         android:text="@string/title_error_content"
         app:layout_constraintEnd_toEndOf="@+id/tvError"
         app:layout_constraintStart_toStartOf="@+id/tvError"
-        app:layout_constraintTop_toBottomOf="@+id/tvError"  />
+        app:layout_constraintTop_toBottomOf="@+id/tvError" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnOk"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_error_ok"
         android:layout_margin="16dp"
-        android:textAllCaps="false"
-        android:background="@drawable/bg_button_rounded"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_button_rounded"
+        android:text="@string/title_error_ok"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/tvErrorContent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

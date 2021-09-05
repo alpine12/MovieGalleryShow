@@ -1,7 +1,7 @@
 package com.alpine12.moviegalleryshow.ui.showallmovie
 
-import android.app.AlertDialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -10,8 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentListAllMoviesBinding
 import com.alpine12.moviegalleryshow.ui.showallmovie.adapter.AllMoviesPagedAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -24,6 +26,8 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
     private val viewModel: ShowAllMovieVewModel by viewModels()
     lateinit var binding: FragmentListAllMoviesBinding
     private lateinit var adapterPager: AllMoviesPagedAdapter
+    private lateinit var errorDialog: BottomSheetDialog
+    private lateinit var sheetBinding: BottomsheetErrorBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +40,11 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
 
     private fun initUi() {
         adapterPager = AllMoviesPagedAdapter(this)
+        sheetBinding = BottomsheetErrorBinding.inflate(layoutInflater)
+        errorDialog = BottomSheetDialog(requireContext()).apply {
+            setContentView(sheetBinding.root)
+            setCancelable(false)
+        }
 
         args.movieType.apply {
             val title = if (this.toString() == "top_rated") {
@@ -51,15 +60,17 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
         }
         binding.rvAllMovie.adapter = adapterPager
         adapterPager.addLoadStateListener { loadState ->
-
             binding.apply {
 
-
-                if (loadState.source.refresh is LoadState.NotLoading && adapterPager.itemCount > 1){
-                    containerShimmer.isVisible = false
+                if (loadState.source.refresh is LoadState.NotLoading && adapterPager.itemCount > 1) {
+                  binding.containerShimmer.apply {
+                      visibility = View.GONE
+                      stopShimmer()
+                  }
+                    errorDialog.dismiss()
                 }
 
-                if (loadState.source.refresh is LoadState.Error){
+                if (loadState.source.refresh is LoadState.Error) {
                     showErrorMessage()
                 }
             }
@@ -70,23 +81,18 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
         binding.containerShimmer.startShimmer()
     }
 
-    private fun getLoadingMovie() {
-        binding.containerShimmer.apply {
-            stopShimmer()
-            visibility = View.GONE
-        }
-    }
+
 
     private fun showErrorMessage() {
-        val dialog = AlertDialog.Builder(requireContext())
-            .setMessage("Terjadi masalah!")
-            .setTitle("Ada masalah")
-            .setNeutralButton("Coba Lagi") { _, _ ->
-                adapterPager.refresh()
-            }
-            .setCancelable(false)
-            .create()
-            .show()
+        errorDialog.show()
+        sheetBinding.btnOk.setOnClickListener {
+            adapterPager.refresh()
+            errorDialog.dismiss()
+        }
+//        if (!errorDialog.isShowing){
+//            errorDialog.show()
+//
+//        }
     }
 
     private fun subscribeOnUi() {

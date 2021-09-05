@@ -190,7 +190,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             binding.viewPagerUpcomingMovie.visibility = View.VISIBLE
             binding.containerShimmerPager.visibility = View.INVISIBLE
             binding.containerShimmerPager.stopShimmer()
-            errorDialog.dismiss()
         }
     }
 
@@ -203,7 +202,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 rvPopularMovie.visibility = View.VISIBLE
                 containerShimmerPopular.visibility = View.INVISIBLE
                 binding.containerShimmerPopular.stopShimmer()
-                errorDialog.dismiss()
             }
         }
     }
@@ -217,7 +215,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 rvTopRatedMovie.visibility = View.VISIBLE
                 containerShimmerTopRated.visibility = View.INVISIBLE
                 binding.containerShimmerTopRated.stopShimmer()
-                errorDialog.dismiss()
             }
         }
     }
@@ -227,6 +224,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
             errorDialog.show()
             sheetBinding.btnOk.setOnClickListener {
                viewModel.retryConnection()
+                errorDialog.dismiss()
             }
         }
 
