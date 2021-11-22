@@ -16,6 +16,7 @@ import com.alpine12.moviegalleryshow.ui.showallmovie.adapter.AllMoviesPagedAdapt
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
@@ -89,10 +90,11 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
             adapterPager.refresh()
             errorDialog.dismiss()
         }
-//        if (!errorDialog.isShowing){
-//            errorDialog.show()
-//
-//        }
+
+        sheetBinding.btnExit.setOnClickListener {
+            activity?.finish()
+            exitProcess(0)
+        }
     }
 
     private fun subscribeOnUi() {

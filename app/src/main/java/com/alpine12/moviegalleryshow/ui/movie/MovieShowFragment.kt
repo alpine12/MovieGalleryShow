@@ -1,11 +1,8 @@
 package com.alpine12.moviegalleryshow.ui.movie
 
 import android.annotation.SuppressLint
-import android.icu.text.CaseMap
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -26,7 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
-import java.time.chrono.JapaneseEra
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
@@ -51,7 +48,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         initShimmer()
         subscribeUi()
         onClick()
-     
+
     }
 
     private fun initUi() {
@@ -80,20 +77,27 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
 
-       sheetBinding = BottomsheetErrorBinding.inflate(layoutInflater)
-       errorDialog = BottomSheetDialog(requireContext())
-       errorDialog.setContentView(sheetBinding.root)
+        sheetBinding = BottomsheetErrorBinding.inflate(layoutInflater)
+        errorDialog = BottomSheetDialog(requireContext())
+        errorDialog.setContentView(sheetBinding.root)
         errorDialog.setCancelable(false)
     }
 
-    private fun initShimmer(){
+    private fun initShimmer() {
         binding.containerShimmerPager.startShimmer()
         binding.containerShimmerPopular.startShimmer()
         binding.containerShimmerTopRated.startShimmer()
     }
 
     private fun onClick() {
-       binding.tvSeeAllPopular.setOnClickListener {
+
+        binding.btnSearchMovie.setOnClickListener {
+            val action =
+                MovieShowFragmentDirections.actionMenuMovieFragmentToSearchFragment(binding.textInputSearch.text.toString())
+            findNavController().navigate(action)
+        }
+
+        binding.tvSeeAllPopular.setOnClickListener {
             val action =
                 MovieShowFragmentDirections.actionMenuMovieFragmentToShowAllMovieFragment("popular")
             findNavController().navigate(action)
@@ -133,12 +137,12 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     }
                 }
                 ERROR -> {
-                    result.message?.let {msg ->
+                    result.message?.let { msg ->
                         showError()
                     }
                 }
                 LOADING -> {
-                   getLoadingUpcomingPager(true)
+                    getLoadingUpcomingPager(true)
                 }
             }
         }
@@ -157,7 +161,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                     }
                 }
                 LOADING -> {
-                  getLoadingPopular(true)
+                    getLoadingPopular(true)
                 }
             }
         }
@@ -172,33 +176,33 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 }
                 ERROR -> {
                     result.message?.let {
-                      showError()
+                        showError()
                     }
                 }
                 LOADING -> {
-                   getLoadingTopRated(true)
+                    getLoadingTopRated(true)
                 }
             }
         }
     }
 
-    private fun getLoadingUpcomingPager(loading : Boolean){
-        if (loading){
-            binding.viewPagerUpcomingMovie.visibility =View.INVISIBLE
+    private fun getLoadingUpcomingPager(loading: Boolean) {
+        if (loading) {
+            binding.viewPagerUpcomingMovie.visibility = View.INVISIBLE
             binding.containerShimmerPager.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.viewPagerUpcomingMovie.visibility = View.VISIBLE
             binding.containerShimmerPager.visibility = View.INVISIBLE
             binding.containerShimmerPager.stopShimmer()
         }
     }
 
-    private fun getLoadingPopular(loading: Boolean){
+    private fun getLoadingPopular(loading: Boolean) {
         binding.apply {
-            if (loading){
+            if (loading) {
                 rvPopularMovie.visibility = View.INVISIBLE
                 containerShimmerPopular.visibility = View.VISIBLE
-            }else{
+            } else {
                 rvPopularMovie.visibility = View.VISIBLE
                 containerShimmerPopular.visibility = View.INVISIBLE
                 binding.containerShimmerPopular.stopShimmer()
@@ -206,12 +210,12 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         }
     }
 
-    private fun getLoadingTopRated(loading: Boolean){
+    private fun getLoadingTopRated(loading: Boolean) {
         binding.apply {
-            if (loading){
+            if (loading) {
                 rvTopRatedMovie.visibility = View.INVISIBLE
                 containerShimmerTopRated.visibility = View.VISIBLE
-            }else{
+            } else {
                 rvTopRatedMovie.visibility = View.VISIBLE
                 containerShimmerTopRated.visibility = View.INVISIBLE
                 binding.containerShimmerTopRated.stopShimmer()
@@ -219,12 +223,17 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         }
     }
 
-    private fun showError(){
-        if (!errorDialog.isShowing){
+    private fun showError() {
+        if (!errorDialog.isShowing) {
             errorDialog.show()
             sheetBinding.btnOk.setOnClickListener {
-               viewModel.retryConnection()
+                viewModel.retryConnection()
                 errorDialog.dismiss()
+            }
+
+            sheetBinding.btnExit.setOnClickListener {
+                activity?.finish()
+                exitProcess(0)
             }
         }
 
@@ -240,7 +249,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         }
     }
 
-    private fun log(title: String,message: String){
+    private fun log(title: String, message: String) {
         Timber.d("$title pesan $message")
     }
 

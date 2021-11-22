@@ -9,6 +9,7 @@ import com.alpine12.moviegalleryshow.data.model.movie.ResponseGenres
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.repository.RemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -35,19 +36,22 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
         fetchMovie()
     }
 
-    fun retryConnection(){
+    fun retryConnection() {
         fetchMovie()
     }
 
-    private fun fetchMovie(){
+    private fun fetchMovie() {
         getGenres()
         getUpComing()
         getPopularMovie()
         getTopRated()
+
+
     }
 
     private fun getGenres() = viewModelScope.launch {
         Timber.d("Collected genres")
+        delay(2000L)
         remoteRepository.getGenres().collect {
             it?.data.let { data ->
                 data?.genres?.get(0)?.selected = true
@@ -57,12 +61,14 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     }
 
     private fun getUpComing() = viewModelScope.launch {
+        delay(2000L)
         remoteRepository.getNowUpComingMovie().collect {
             _upComingMovieList.postValue(it)
         }
     }
 
     private fun getPopularMovie() = viewModelScope.launch {
+        delay(2000L)
         remoteRepository.getPopularMovie().collect {
             Timber.d("Collected popular")
             _popularMovieList.postValue(it)
@@ -70,9 +76,12 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     }
 
     private fun getTopRated() = viewModelScope.launch {
+        delay(2000L)
         remoteRepository.getTopRatedMovie().collect {
             Timber.d("Collected popular top rated")
             _topRatedMovieList.postValue(it)
         }
     }
+
+
 }

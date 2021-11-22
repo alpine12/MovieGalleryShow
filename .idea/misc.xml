@@ -16,6 +16,7 @@
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/fragment_detail_movie.xml" value="0.2529209621993127" />
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/fragment_list_all_movies.xml" value="0.23541666666666666" />
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/fragment_movie_show.xml" value="0.2" />
+        <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/fragment_search.xml" value="0.25555555555555554" />
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/fragment_see_all_movies.xml" value="0.264" />
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/item_list_all_movie.xml" value="0.264" />
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/item_list_companies_production.xml" value="0.2529209621993127" />
@@ -28,6 +29,7 @@
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/placeholder_movie_fragment.xml" value="0.25555555555555554" />
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/placeholder_movie_pager.xml" value="0.25555555555555554" />
         <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/placeholder_movie_show.xml" value="0.25555555555555554" />
+        <entry key="..\:/Android Studio/MovieGaleryShow/app/src/main/res/layout/view_topbar.xml" value="0.25555555555555554" />
       </map>
     </option>
   </component>

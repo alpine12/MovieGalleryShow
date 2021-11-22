@@ -24,7 +24,7 @@ class MovieAdapter(private val listener: OnMovieClickListener) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = getItem(position)
-        Timber.d(currentItem.title)
+        Timber.d(" SearchMovie" +currentItem.title)
         holder.bind(currentItem)
     }
 

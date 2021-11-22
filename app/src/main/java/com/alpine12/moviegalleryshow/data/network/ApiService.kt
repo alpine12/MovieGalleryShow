@@ -2,7 +2,6 @@ package com.alpine12.moviegalleryshow.data.network
 
 import com.alpine12.moviegalleryshow.data.model.detailmovie.DetailMovie
 import com.alpine12.moviegalleryshow.data.model.detailmovie.ResponseVideos
-import com.alpine12.moviegalleryshow.data.model.movie.Genres
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseGenres
 import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import retrofit2.Response
@@ -36,4 +35,10 @@ interface ApiService {
 
     @GET("genre/movie/list")
     suspend fun getGenres(): Response<ResponseGenres>
+
+    @GET("search/movie")
+    suspend fun getSearchMovie(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): Response<ResponseMovie>
 }
