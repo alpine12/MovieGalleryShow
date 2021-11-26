@@ -1,8 +1,11 @@
 package com.alpine12.moviegalleryshow.ui.movie
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -92,6 +95,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     private fun onClick() {
 
         binding.btnSearchMovie.setOnClickListener {
+            closeKeyBoard()
             val action =
                 MovieShowFragmentDirections.actionMenuMovieFragmentToSearchFragment(binding.textInputSearch.text.toString())
             findNavController().navigate(action)
@@ -224,6 +228,7 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     }
 
     private fun showError() {
+
         if (!errorDialog.isShowing) {
             errorDialog.show()
             sheetBinding.btnOk.setOnClickListener {
@@ -236,10 +241,22 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
                 exitProcess(0)
             }
         }
+    }
+
+
+    private fun closeKeyBoard() {
+      activity?.hideKeyboard(binding.root)
+    }
+
+    private fun Context.hideKeyboard(view: View) {
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
     }
 
     private fun keyboardEvent() {
+
         KeyboardVisibilityEvent.setEventListener(
             requireActivity()
         ) { isOpen ->

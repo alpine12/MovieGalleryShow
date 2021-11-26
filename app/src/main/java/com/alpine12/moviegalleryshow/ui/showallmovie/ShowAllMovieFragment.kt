@@ -1,9 +1,7 @@
 package com.alpine12.moviegalleryshow.ui.showallmovie
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,7 +10,7 @@ import androidx.paging.LoadState
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentListAllMoviesBinding
-import com.alpine12.moviegalleryshow.ui.showallmovie.adapter.AllMoviesPagedAdapter
+import com.alpine12.moviegalleryshow.ui.adapter.AllMoviesPagedAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
