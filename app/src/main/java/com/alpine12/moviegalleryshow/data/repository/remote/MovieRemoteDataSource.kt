@@ -17,8 +17,6 @@ class MovieRemoteDataSource @Inject constructor(
     private val retrofit: Retrofit
 ) {
     private val defaultError = "Error fetching Movie list"
-
-
     suspend fun fetchAllMovie(movie: String, page: Int): ResultData<ResponseMovie> {
         return getResponse(
             request = { apiService.getAllMovie(movie, page) },
@@ -57,7 +55,6 @@ class MovieRemoteDataSource @Inject constructor(
     suspend fun fetchVideos(idMovie: Int): ResultData<ResponseVideos> =
         getResponse(request = { apiService.getVideos(idMovie) }, defaultErrorMessage = defaultError)
 
-
     suspend fun fetchGenres(): ResultData<ResponseGenres> =
         getResponse(request = { apiService.getGenres() }, defaultError)
 
@@ -83,7 +80,7 @@ class MovieRemoteDataSource @Inject constructor(
             ResultData.error("Error : ${e.message()}", null)
         } catch (e: Throwable) {
             ResultData.error(
-                "Unknown Error trowable ${e.message} and ${e.stackTrace.toString()}",
+                "Unknown Error throwable ${e.message} and ${e.stackTrace.toString()}",
                 null
             )
         } catch (e: NullPointerException) {

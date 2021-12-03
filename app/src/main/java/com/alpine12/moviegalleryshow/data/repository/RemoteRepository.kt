@@ -21,15 +21,14 @@ class RemoteRepository @Inject constructor(
     val apiService: ApiService
 ) {
 
-    fun getAllMovie(movieType :String , page : Int) : Flow<ResultData<ResponseMovie>?> = flow {
+    fun getAllMovie(movieType: String, page: Int): Flow<ResultData<ResponseMovie>?> = flow {
         emit(ResultData.loading())
         val result = movieRemoteDataSource.fetchAllMovie(movieType, page)
         emit(result)
-    } .flowOn(IO)
+    }.flowOn(IO)
 
     fun getPopularMovie(): Flow<ResultData<ResponseMovie>?> {
         return flow {
-            Timber.i("logistik  popular I'm working in thread ${Thread.currentThread().name}")
             emit(ResultData.loading())
             val result = movieRemoteDataSource.fetchPopularMovies()
             emit(result)
@@ -37,7 +36,6 @@ class RemoteRepository @Inject constructor(
     }
 
     fun getTopRatedMovie(): Flow<ResultData<ResponseMovie>?> {
-        Timber.i("logistik  rated I'm working in thread ${Thread.currentThread().name}")
         return flow {
             val movie = movieRemoteDataSource.fetchTopRatedMovies()
             emit(movie)
@@ -45,7 +43,6 @@ class RemoteRepository @Inject constructor(
     }
 
     fun getNowUpComingMovie(): Flow<ResultData<ResponseMovie>?> {
-        Timber.i("logistik playing I'm working in thread ${Thread.currentThread().name}")
         return flow {
             val movie = movieRemoteDataSource.fetchUpComingMovies()
             emit(movie)
@@ -57,8 +54,6 @@ class RemoteRepository @Inject constructor(
             val detailMovie = movieRemoteDataSource.fetchDetailMovie(idMovie)
             emit(detailMovie)
         }.flowOn(IO)
-
-
 
     fun getVideos(idMovie: Int): Flow<ResultData<ResponseVideos>?> =
         flow {
@@ -74,7 +69,7 @@ class RemoteRepository @Inject constructor(
             emit(genres)
         }.flowOn(IO)
 
-    fun getSearchMovie(query : String , page :Int) : Flow<ResultData<ResponseMovie>?> =
+    fun getSearchMovie(query: String, page: Int): Flow<ResultData<ResponseMovie>?> =
         flow {
             val movie = movieRemoteDataSource.fetchSearchMovie(query, page)
             Timber.d(movie.data.toString())

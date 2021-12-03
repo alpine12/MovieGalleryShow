@@ -23,7 +23,6 @@ class RemotePagingDataSource @Inject constructor(
                 pageSize = Constant.NETWORK_PAGE_SIZE,
                 enablePlaceholders = false,
                 initialLoadSize = 2,
-
             ),
             pagingSourceFactory = {
                 MoviePagingSource(movieType, apiService)
@@ -37,7 +36,6 @@ class RemotePagingDataSource @Inject constructor(
                 pageSize = Constant.NETWORK_PAGE_SIZE,
                 enablePlaceholders = false,
                 initialLoadSize = 2,
-
                 ),
             pagingSourceFactory = {
                 SearchMoviePagingSource(movieQuery, apiService)
