@@ -80,8 +80,6 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
         binding.containerShimmer.startShimmer()
     }
 
-
-
     private fun showErrorMessage() {
         errorDialog.show()
         sheetBinding.btnOk.setOnClickListener {

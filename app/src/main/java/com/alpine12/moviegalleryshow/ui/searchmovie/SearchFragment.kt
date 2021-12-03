@@ -8,95 +8,94 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentSearchBinding
 import com.alpine12.moviegalleryshow.ui.adapter.LoaderStateAdapter
 import com.alpine12.moviegalleryshow.ui.adapter.MoviesPagedAdapter
-import com.alpine12.moviegalleryshow.ui.showallmovie.adapter.AllMovieAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search),
     MoviesPagedAdapter.OnItemCLickListener {
     private val args: SearchFragmentArgs by navArgs()
+    private val viewModel: SearchFragmentViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SearchFragmentViewModel by viewModels()
     private lateinit var adapterPaged: MoviesPagedAdapter
+    private lateinit var sheetBindingDialog: BottomsheetErrorBinding
+    private lateinit var errorDialog: BottomSheetDialog
 
-    private lateinit var adapter: AllMovieAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
         initUi()
+        initShimmer()
         subscribeUi()
         onClick()
     }
 
     private fun initUi() {
+        viewModel.searchQuery(args.movieTitle)
+        binding.rvMovieList.setHasFixedSize(true)
+
+        sheetBindingDialog = BottomsheetErrorBinding.inflate(layoutInflater)
+        errorDialog = BottomSheetDialog(requireContext()).apply {
+            setContentView(sheetBindingDialog.root)
+            setCancelable(false)
+        }
+
         adapterPaged = MoviesPagedAdapter(this)
         binding.rvMovieList.adapter = adapterPaged.withLoadStateHeaderAndFooter(
             header = LoaderStateAdapter { adapterPaged.retry() },
             footer = LoaderStateAdapter { adapterPaged.retry() }
         )
-        binding.rvMovieList.setHasFixedSize(true)
-
-        viewModel.searchQuery(args.movieTitle)
 
         adapterPaged.addLoadStateListener { state ->
-
-//            if (state.source.refresh is LoadState.NotLoading && adapterPaged.itemCount >= 1){
-//                showToast("Not Loading");
-//                showToast("Not loading and have 1")
-//            }
-//
-//            if (state.source.refresh is LoadState.Loading){
-//                showToast("Loading")
-//            }
-//
-//            if (state.source.refresh is LoadState.Error){
-//                showToast("Error")
-//            }
-
-
+            if (state.source.refresh is LoadState.NotLoading && adapterPaged.itemCount >= 1) {
+                binding.containerShimmer.apply {
+                    visibility = View.GONE
+                    stopShimmer()
+                }
+                errorDialog.dismiss()
+            }
+            if (state.source.refresh is LoadState.Error) {
+               showErrorMessage()
+            }
         }
     }
-
-
     private fun subscribeUi() {
-
         lifecycleScope.launchWhenStarted {
-
             viewModel.moviePaged.observe(viewLifecycleOwner, {
                 adapterPaged.submitData(viewLifecycleOwner.lifecycle, it)
             })
-
-//            viewModel.movieUiState.collectLatest {
-//                when (it) {
-//                    is SearchFragmentViewModel.ResponseNetwork.ERROR -> {
-//                        Timber.d("view status error")
-//                        Snackbar.make(binding.root, it.msg, Snackbar.LENGTH_SHORT).show()
-//                    }
-//                    is SearchFragmentViewModel.ResponseNetwork.LOADING -> {
-//                        Timber.d("view status loading")
-//                        Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_SHORT).show()
-//                    }
-//                    is SearchFragmentViewModel.ResponseNetwork.SUCCESS -> {
-//                        Timber.d("view status  success")
-//                        adapter.submitList(it.data.results)
-//                        Timber.d("data searh ${it.data.results}")
-//                    }
-//                }
-//            }
         }
     }
 
     private fun onClick() {
         binding.topBar.btnBack.setOnClickListener {
             findNavController().navigateUp()
-//            viewModel.setLoading()
-//            viewModel.getSearchMovie(args.movieTitle, 1)
+        }
+    }
+
+    private fun initShimmer(){
+        binding.containerShimmer.startShimmer()
+    }
+
+    private fun showErrorMessage(){
+        errorDialog.show()
+        sheetBindingDialog.btnOk.setOnClickListener {
+            adapterPaged.refresh();
+            errorDialog.dismiss()
+        }
+
+        sheetBindingDialog.btnExit.setOnClickListener {
+            activity?.finish()
+            exitProcess(0)
         }
     }
 
