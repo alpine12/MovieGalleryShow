@@ -68,11 +68,4 @@ class RemoteRepository @Inject constructor(
             Timber.d(genres.status.toString())
             emit(genres)
         }.flowOn(IO)
-
-    fun getSearchMovie(query: String, page: Int): Flow<ResultData<ResponseMovie>?> =
-        flow {
-            val movie = movieRemoteDataSource.fetchSearchMovie(query, page)
-            Timber.d(movie.data.toString())
-            emit(movie)
-        }.flowOn(IO)
 }

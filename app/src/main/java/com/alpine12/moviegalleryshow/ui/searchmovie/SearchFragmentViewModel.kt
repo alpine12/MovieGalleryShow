@@ -6,16 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.movie.Movie
-import com.alpine12.moviegalleryshow.data.model.movie.ResponseMovie
 import com.alpine12.moviegalleryshow.data.repository.RemotePagingDataSource
 import com.alpine12.moviegalleryshow.data.repository.RemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,9 +24,6 @@ class SearchFragmentViewModel @Inject constructor(
     ViewModel() {
 
     private val _stateLaunch = MutableStateFlow<Boolean>(true)
-    private val _movieUiState = MutableStateFlow<ResponseNetwork>(ResponseNetwork.LOADING)
-    val movieUiState: StateFlow<ResponseNetwork> = _movieUiState
-
     private val _moviePaged = MutableLiveData<PagingData<Movie>>()
     val moviePaged: LiveData<PagingData<Movie>> = _moviePaged
 
@@ -42,15 +37,7 @@ class SearchFragmentViewModel @Inject constructor(
     private fun getSearchMovie(query: String) = viewModelScope.launch {
         remotePagingDataSource.getSearchMovies(query).cachedIn(viewModelScope)
             .distinctUntilChanged().collectLatest {
-            _moviePaged.value = it
-        }
+                _moviePaged.value = it
+            }
     }
-
-    sealed class ResponseNetwork() {
-        object LOADING : ResponseNetwork()
-        data class SUCCESS(val data: ResponseMovie) : ResponseNetwork()
-        data class PAGED(val data: PagingData<Movie>) : ResponseNetwork()
-        data class ERROR(val msg: String) : ResponseNetwork()
-    }
-
 }

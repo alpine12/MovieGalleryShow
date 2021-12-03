@@ -29,7 +29,6 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private lateinit var sheetBindingDialog: BottomsheetErrorBinding
     private lateinit var errorDialog: BottomSheetDialog
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)

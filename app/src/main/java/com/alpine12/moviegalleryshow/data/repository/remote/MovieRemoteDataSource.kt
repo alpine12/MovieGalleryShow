@@ -58,9 +58,6 @@ class MovieRemoteDataSource @Inject constructor(
     suspend fun fetchGenres(): ResultData<ResponseGenres> =
         getResponse(request = { apiService.getGenres() }, defaultError)
 
-    suspend fun fetchSearchMovie(query: String, page: Int): ResultData<ResponseMovie> =
-        getResponse(request = { apiService.getSearchMovie(query, page) }, defaultError)
-
     private suspend fun <T> getResponse(
         request: suspend () -> Response<T>,
         defaultErrorMessage: String

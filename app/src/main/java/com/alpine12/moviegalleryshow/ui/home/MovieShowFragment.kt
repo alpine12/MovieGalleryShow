@@ -62,7 +62,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         popularMovieAdapter = MovieAdapter(this)
         topRatedAdapter = MovieAdapter(this)
 
-
         binding.apply {
             rvGenres.adapter = genresAdapter
             genresAdapter.stateRestorationPolicy =
@@ -267,7 +266,6 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     }
 
     private fun keyboardEvent() {
-
         KeyboardVisibilityEvent.setEventListener(
             requireActivity()
         ) { isOpen ->

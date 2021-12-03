@@ -42,7 +42,5 @@ class LoaderStateAdapter(private val retry: () -> Unit) :
                 tvError.isVisible = loadState !is LoadState.Loading
             }
         }
-
     }
-
 }

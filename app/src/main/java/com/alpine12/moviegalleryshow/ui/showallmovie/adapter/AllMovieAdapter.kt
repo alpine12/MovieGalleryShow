@@ -14,7 +14,6 @@ import com.alpine12.moviegalleryshow.utils.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import timber.log.Timber
 
 class AllMovieAdapter(private val listener: OnItemCLickListener) :
     ListAdapter<Movie, AllMovieAdapter.ViewHolder>(DiffCallBack()) {
@@ -41,17 +40,15 @@ class AllMovieAdapter(private val listener: OnItemCLickListener) :
 
         fun bindItem(movie: Movie) {
             binding.apply {
-                Timber.d("Adapter" + movie)
                 tvTitleMovie.text = movie.title
                 tvViewersMovie.text = "${movie.popularity} Viewers"
                 movie.release_date?.let {
-                    Timber.d("dateAdapter $it ${movie.title}")
                     tvYearMovie.text.apply {
-                        if (it == "") "Unknown" else tvYearMovie.text =  Utils.DateFormat(it, "yyyy-mm-dd", "yyyy")
+                        if (it == "") "Unknown" else tvYearMovie.text =
+                            Utils.DateFormat(it, "yyyy-mm-dd", "yyyy")
                     }
                 }
                 movie.genre_ids?.let {
-                    Timber.d(" genreAdapter ${it.isEmpty()} ${movie.title}")
                     tvGenreMovie.text.apply {
                         if (it.isEmpty()) "Unknown" else tvGenreMovie.text = Constant.Genres[it[0]]
                     }
@@ -72,7 +69,6 @@ class AllMovieAdapter(private val listener: OnItemCLickListener) :
 
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
             oldItem == newItem
-
     }
 
     interface OnItemCLickListener {

@@ -38,7 +38,6 @@ class CompaniesAdapter : ListAdapter<Companies, CompaniesAdapter.ViewHolder>(Dif
                     .error(R.drawable.ic_movie_nav)
                     .dontAnimate()
                     .into(binding.ivCompanies)
-
                 tvTitleCompanies.text = companies.name
             }
         }

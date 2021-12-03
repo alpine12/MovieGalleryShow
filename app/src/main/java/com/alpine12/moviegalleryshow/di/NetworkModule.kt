@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
@@ -29,7 +28,6 @@ object NetworkModule {
         }
     }
 
-
     @Provides
     @Singleton
     fun providesApiKey(): Interceptor = Interceptor { chain ->
@@ -39,7 +37,6 @@ object NetworkModule {
             .addQueryParameter("language", "en-US")
             .build()
         request = request.newBuilder().url(url).build()
-
         chain.proceed(request)
     }
 
@@ -65,7 +62,6 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
-
 
     @Provides
     @Singleton

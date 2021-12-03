@@ -20,7 +20,6 @@ class DetailMovieViewModel @Inject constructor(private val remoteRepository: Rem
     private val _detailMovie = MutableLiveData<ResultData<DetailMovie>>()
     private val _videos = MutableLiveData<ResultData<ResponseVideos>>()
 
-
     val detailMovie: LiveData<ResultData<DetailMovie>> = _detailMovie
     val videos: LiveData<ResultData<ResponseVideos>> = _videos
 

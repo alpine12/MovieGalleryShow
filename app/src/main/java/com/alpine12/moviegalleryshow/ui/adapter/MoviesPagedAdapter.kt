@@ -64,7 +64,6 @@ class MoviesPagedAdapter(private val listener: OnItemCLickListener) :
                     .error(R.drawable.ic_movie_nav)
                     .into(binding.imgBannerMovie)
             }
-
         }
     }
 

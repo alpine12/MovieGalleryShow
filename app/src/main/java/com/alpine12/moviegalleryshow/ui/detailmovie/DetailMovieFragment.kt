@@ -131,7 +131,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
             binding.tvDescStoryLine.text = data.overview
 
             data.production_companies.apply {
-                Timber.d("Companies : ${this.toString()}")
                 companiesAdapter.submitList(this)
             }
         }
