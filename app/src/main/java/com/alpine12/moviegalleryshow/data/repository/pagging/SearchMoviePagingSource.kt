@@ -6,6 +6,7 @@ import com.alpine12.moviegalleryshow.data.model.movie.Movie
 import com.alpine12.moviegalleryshow.data.network.ApiService
 import com.alpine12.moviegalleryshow.utils.Constant
 import com.bumptech.glide.load.HttpException
+import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.io.IOException
 
@@ -18,6 +19,7 @@ class SearchMoviePagingSource(
         val indexPage = params.key ?: Constant.STARTING_PAGE_INDEX
         return try {
             Timber.d("Paging success")
+            delay(2000L)
             val response = apiService.getSearchMovie(movieQuery, indexPage)
             val movie = response.body()?.results
             val nextKey =

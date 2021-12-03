@@ -16,8 +16,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import timber.log.Timber
 
-class AllMoviesPagedAdapter(private val listener: OnItemCLickListener) :
-    PagingDataAdapter<Movie, AllMoviesPagedAdapter.MovieViewHolder>(DiffCallBack()) {
+class MoviesPagedAdapter(private val listener: OnItemCLickListener) :
+    PagingDataAdapter<Movie, MoviesPagedAdapter.MovieViewHolder>(DiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding =

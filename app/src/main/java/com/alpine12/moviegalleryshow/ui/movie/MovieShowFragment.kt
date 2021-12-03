@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -95,6 +96,13 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
     private fun onClick() {
 
         binding.btnSearchMovie.setOnClickListener {
+
+            val searchQuery = binding.textInputSearch.text.toString()
+            if (searchQuery.isEmpty()) {
+                showToast("Query Tidak Boleh Kosong !")
+                closeKeyBoard()
+                return@setOnClickListener
+            }
             closeKeyBoard()
             val action =
                 MovieShowFragmentDirections.actionMenuMovieFragmentToSearchFragment(binding.textInputSearch.text.toString())
@@ -243,9 +251,12 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         }
     }
 
+    private fun showToast(msg: String) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+    }
 
     private fun closeKeyBoard() {
-      activity?.hideKeyboard(binding.root)
+        activity?.hideKeyboard(binding.root)
     }
 
     private fun Context.hideKeyboard(view: View) {

@@ -2,6 +2,7 @@ package com.alpine12.moviegalleryshow.ui.searchmovie
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,22 +10,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.databinding.FragmentSearchBinding
-import com.alpine12.moviegalleryshow.ui.adapter.AllMoviesPagedAdapter
+import com.alpine12.moviegalleryshow.ui.adapter.LoaderStateAdapter
+import com.alpine12.moviegalleryshow.ui.adapter.MoviesPagedAdapter
 import com.alpine12.moviegalleryshow.ui.showallmovie.adapter.AllMovieAdapter
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search), AllMoviesPagedAdapter.OnItemCLickListener {
+class SearchFragment : Fragment(R.layout.fragment_search),
+    MoviesPagedAdapter.OnItemCLickListener {
     private val args: SearchFragmentArgs by navArgs()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchFragmentViewModel by viewModels()
-    private lateinit var adapterPaged : AllMoviesPagedAdapter
+    private lateinit var adapterPaged: MoviesPagedAdapter
 
     private lateinit var adapter: AllMovieAdapter
 
@@ -37,12 +35,32 @@ class SearchFragment : Fragment(R.layout.fragment_search), AllMoviesPagedAdapter
     }
 
     private fun initUi() {
-//        adapter = AllMovieAdapter(this)
-        adapterPaged = AllMoviesPagedAdapter(this)
-        binding.rvMovieList.adapter = adapterPaged
+        adapterPaged = MoviesPagedAdapter(this)
+        binding.rvMovieList.adapter = adapterPaged.withLoadStateHeaderAndFooter(
+            header = LoaderStateAdapter { adapterPaged.retry() },
+            footer = LoaderStateAdapter { adapterPaged.retry() }
+        )
         binding.rvMovieList.setHasFixedSize(true)
 
         viewModel.searchQuery(args.movieTitle)
+
+        adapterPaged.addLoadStateListener { state ->
+
+//            if (state.source.refresh is LoadState.NotLoading && adapterPaged.itemCount >= 1){
+//                showToast("Not Loading");
+//                showToast("Not loading and have 1")
+//            }
+//
+//            if (state.source.refresh is LoadState.Loading){
+//                showToast("Loading")
+//            }
+//
+//            if (state.source.refresh is LoadState.Error){
+//                showToast("Error")
+//            }
+
+
+        }
     }
 
 
@@ -50,9 +68,9 @@ class SearchFragment : Fragment(R.layout.fragment_search), AllMoviesPagedAdapter
 
         lifecycleScope.launchWhenStarted {
 
-           viewModel.moviePaged.observe(viewLifecycleOwner, {
-               adapterPaged.submitData(viewLifecycleOwner.lifecycle, it)
-           })
+            viewModel.moviePaged.observe(viewLifecycleOwner, {
+                adapterPaged.submitData(viewLifecycleOwner.lifecycle, it)
+            })
 
 //            viewModel.movieUiState.collectLatest {
 //                when (it) {
@@ -80,6 +98,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), AllMoviesPagedAdapter
 //            viewModel.setLoading()
 //            viewModel.getSearchMovie(args.movieTitle, 1)
         }
+    }
+
+    private fun showToast(msg: String) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClick(idMovie: Int) {

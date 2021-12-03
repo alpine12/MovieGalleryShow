@@ -10,7 +10,7 @@ import androidx.paging.LoadState
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentListAllMoviesBinding
-import com.alpine12.moviegalleryshow.ui.adapter.AllMoviesPagedAdapter
+import com.alpine12.moviegalleryshow.ui.adapter.MoviesPagedAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -18,13 +18,13 @@ import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
-    AllMoviesPagedAdapter.OnItemCLickListener {
+    MoviesPagedAdapter.OnItemCLickListener {
 
     private val args: ShowAllMovieFragmentArgs by navArgs()
 
     private val viewModel: ShowAllMovieVewModel by viewModels()
     lateinit var binding: FragmentListAllMoviesBinding
-    private lateinit var adapterPager: AllMoviesPagedAdapter
+    private lateinit var adapterPager: MoviesPagedAdapter
     private lateinit var errorDialog: BottomSheetDialog
     private lateinit var sheetBinding: BottomsheetErrorBinding
 
@@ -38,7 +38,7 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
     }
 
     private fun initUi() {
-        adapterPager = AllMoviesPagedAdapter(this)
+        adapterPager = MoviesPagedAdapter(this)
         sheetBinding = BottomsheetErrorBinding.inflate(layoutInflater)
         errorDialog = BottomSheetDialog(requireContext()).apply {
             setContentView(sheetBinding.root)

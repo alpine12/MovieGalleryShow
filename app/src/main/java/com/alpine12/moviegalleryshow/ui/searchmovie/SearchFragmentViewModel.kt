@@ -34,7 +34,6 @@ class SearchFragmentViewModel @Inject constructor(
 
     fun searchQuery(query: String) {
         if (_stateLaunch.value) {
-//            getSearchMovie(query, 1)
             getSearchMovie(query)
             _stateLaunch.value = false
         }
@@ -44,30 +43,6 @@ class SearchFragmentViewModel @Inject constructor(
         remotePagingDataSource.getSearchMovies(query).cachedIn(viewModelScope)
             .distinctUntilChanged().collectLatest {
             _moviePaged.value = it
-        }
-    }
-
-    fun getSearchMovie(query: String, page: Int) = viewModelScope.launch {
-        Timber.d("search Trigger")
-        delay(2000L)
-        remoteRepository.getSearchMovie(query, 1).collect {
-            Timber.d("search Result")
-            it?.let { res ->
-                when (res.status) {
-                    ResultData.Status.SUCCESS -> {
-                        Timber.d("search Result success")
-                        _movieUiState.value = ResponseNetwork.SUCCESS(res.data!!)
-                    }
-                    ResultData.Status.ERROR -> {
-                        Timber.d("search Result error")
-                        _movieUiState.value = ResponseNetwork.ERROR(res.message.toString())
-                    }
-                    ResultData.Status.LOADING -> {
-                        Timber.d("search Result Loading")
-                        _movieUiState.value = ResponseNetwork.LOADING
-                    }
-                }
-            }
         }
     }
 
