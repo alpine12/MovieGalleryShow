@@ -10,6 +10,7 @@ import androidx.paging.LoadState
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentListAllMoviesBinding
+import com.alpine12.moviegalleryshow.ui.adapter.LoaderStateAdapter
 import com.alpine12.moviegalleryshow.ui.adapter.MoviesPagedAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,9 +20,7 @@ import kotlin.system.exitProcess
 @AndroidEntryPoint
 class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
     MoviesPagedAdapter.OnItemCLickListener {
-
     private val args: ShowAllMovieFragmentArgs by navArgs()
-
     private val viewModel: ShowAllMovieVewModel by viewModels()
     lateinit var binding: FragmentListAllMoviesBinding
     private lateinit var adapterPager: MoviesPagedAdapter
@@ -33,18 +32,12 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
         Timber.d("State Movie Created")
         binding = FragmentListAllMoviesBinding.bind(view)
         initUi()
+        onClick()
         subscribeOnUi()
         initShimmer()
     }
 
     private fun initUi() {
-        adapterPager = MoviesPagedAdapter(this)
-        sheetBinding = BottomsheetErrorBinding.inflate(layoutInflater)
-        errorDialog = BottomSheetDialog(requireContext()).apply {
-            setContentView(sheetBinding.root)
-            setCancelable(false)
-        }
-
         args.movieType.apply {
             val title = if (this.toString() == "top_rated") {
                 "You may like"
@@ -54,25 +47,43 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
             binding.tvTitleBar.text = title
         }
 
-        binding.btnBack.setOnClickListener {
-            findNavController().navigateUp()
+        sheetBinding = BottomsheetErrorBinding.inflate(layoutInflater)
+        errorDialog = BottomSheetDialog(requireContext()).apply {
+            setContentView(sheetBinding.root)
+            setCancelable(false)
         }
-        binding.rvAllMovie.adapter = adapterPager
+
+        adapterPager = MoviesPagedAdapter(this)
+        binding.rvAllMovie.adapter = adapterPager.withLoadStateHeaderAndFooter(
+            header = LoaderStateAdapter { adapterPager.retry() },
+            footer = LoaderStateAdapter { adapterPager.retry() }
+        )
         adapterPager.addLoadStateListener { loadState ->
             binding.apply {
-
                 if (loadState.source.refresh is LoadState.NotLoading && adapterPager.itemCount > 1) {
-                  binding.containerShimmer.apply {
-                      visibility = View.GONE
-                      stopShimmer()
-                  }
+                    binding.containerShimmer.apply {
+                        visibility = View.GONE
+                        stopShimmer()
+                    }
                     errorDialog.dismiss()
                 }
-
                 if (loadState.source.refresh is LoadState.Error) {
                     showErrorMessage()
                 }
             }
+        }
+    }
+
+    private fun subscribeOnUi() {
+        viewModel.setMovieType(args.movieType)
+        viewModel.moviePaging.observe(viewLifecycleOwner, {
+            adapterPager.submitData(viewLifecycleOwner.lifecycle, it)
+        })
+    }
+
+    private fun onClick() {
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
@@ -91,13 +102,6 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
             activity?.finish()
             exitProcess(0)
         }
-    }
-
-    private fun subscribeOnUi() {
-        viewModel.setMovieType(args.movieType)
-        viewModel.moviePaging.observe(viewLifecycleOwner, {
-            adapterPager.submitData(viewLifecycleOwner.lifecycle, it)
-        })
     }
 
     override fun onItemClick(idMovie: Int) {

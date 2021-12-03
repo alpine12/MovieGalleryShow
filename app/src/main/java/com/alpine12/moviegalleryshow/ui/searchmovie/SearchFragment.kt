@@ -40,6 +40,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     }
 
     private fun initUi() {
+        binding.topBar.tvTitleBar.text = args.movieTitle
         viewModel.searchQuery(args.movieTitle)
         binding.rvMovieList.setHasFixedSize(true)
 

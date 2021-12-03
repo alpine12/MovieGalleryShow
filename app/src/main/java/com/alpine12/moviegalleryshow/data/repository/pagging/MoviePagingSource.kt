@@ -6,6 +6,7 @@ import com.alpine12.moviegalleryshow.data.model.movie.Movie
 import com.alpine12.moviegalleryshow.data.network.ApiService
 import com.alpine12.moviegalleryshow.utils.Constant
 import com.bumptech.glide.load.HttpException
+import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.io.IOException
 
@@ -17,6 +18,7 @@ class MoviePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         val indexPage = params.key ?: Constant.STARTING_PAGE_INDEX
         return try {
+            delay(2500L)
             Timber.d("Paging success")
             val response = apiService.getAllMovie(movieType, indexPage)
             val movie = response.body()?.results
