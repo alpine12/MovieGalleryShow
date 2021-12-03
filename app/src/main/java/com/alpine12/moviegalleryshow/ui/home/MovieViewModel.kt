@@ -1,4 +1,4 @@
-package com.alpine12.moviegalleryshow.ui.movie
+package com.alpine12.moviegalleryshow.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,7 +31,6 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     val upComingMovieList: LiveData<ResultData<ResponseMovie>> = _upComingMovieList
     val genres: LiveData<ResultData<ResponseGenres>> = _genres
 
-
     init {
         fetchMovie()
     }
@@ -45,13 +44,10 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
         getUpComing()
         getPopularMovie()
         getTopRated()
-
-
     }
 
     private fun getGenres() = viewModelScope.launch {
-        Timber.d("Collected genres")
-        delay(2000L)
+        delay(1500L)
         remoteRepository.getGenres().collect {
             it?.data.let { data ->
                 data?.genres?.get(0)?.selected = true
@@ -61,27 +57,23 @@ class MovieViewModel @Inject constructor(private val remoteRepository: RemoteRep
     }
 
     private fun getUpComing() = viewModelScope.launch {
-        delay(2000L)
+        delay(1500L)
         remoteRepository.getNowUpComingMovie().collect {
             _upComingMovieList.postValue(it)
         }
     }
 
     private fun getPopularMovie() = viewModelScope.launch {
-        delay(2000L)
+        delay(1500L)
         remoteRepository.getPopularMovie().collect {
-            Timber.d("Collected popular")
             _popularMovieList.postValue(it)
         }
     }
 
     private fun getTopRated() = viewModelScope.launch {
-        delay(2000L)
+        delay(1500L)
         remoteRepository.getTopRatedMovie().collect {
-            Timber.d("Collected popular top rated")
             _topRatedMovieList.postValue(it)
         }
     }
-
-
 }

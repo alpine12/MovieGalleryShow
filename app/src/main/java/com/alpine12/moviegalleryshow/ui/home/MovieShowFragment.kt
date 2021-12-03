@@ -1,4 +1,4 @@
-package com.alpine12.moviegalleryshow.ui.movie
+package com.alpine12.moviegalleryshow.ui.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -18,10 +18,10 @@ import com.alpine12.moviegalleryshow.data.model.ResultData.Status.*
 import com.alpine12.moviegalleryshow.data.model.movie.Genres
 import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentMovieShowBinding
-import com.alpine12.moviegalleryshow.ui.movie.adapter.GenreAdapter
-import com.alpine12.moviegalleryshow.ui.movie.adapter.MovieAdapter
-import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerMovieAdapter
-import com.alpine12.moviegalleryshow.ui.movie.adapter.PagerTransformer
+import com.alpine12.moviegalleryshow.ui.home.adapter.GenreAdapter
+import com.alpine12.moviegalleryshow.ui.home.adapter.MovieAdapter
+import com.alpine12.moviegalleryshow.ui.home.adapter.PagerMovieAdapter
+import com.alpine12.moviegalleryshow.ui.home.adapter.PagerTransformer
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

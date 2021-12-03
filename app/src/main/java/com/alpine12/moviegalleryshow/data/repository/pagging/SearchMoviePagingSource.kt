@@ -18,8 +18,7 @@ class SearchMoviePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         val indexPage = params.key ?: Constant.STARTING_PAGE_INDEX
         return try {
-            delay(2500L)
-            Timber.d("Paging success")
+            delay(2000L)
             val response = apiService.getSearchMovie(movieQuery, indexPage)
             val movie = response.body()?.results
             val nextKey =
@@ -28,7 +27,6 @@ class SearchMoviePagingSource(
                 } else {
                     indexPage + 1
                 }
-            Timber.d("Paging success 2")
             LoadResult.Page(
                 data = movie,
                 prevKey = if (indexPage == Constant.STARTING_PAGE_INDEX) null else indexPage - 1,

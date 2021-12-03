@@ -51,10 +51,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         }
 
         adapterPaged = MoviesPagedAdapter(this)
-        binding.rvMovieList.adapter = adapterPaged.withLoadStateHeaderAndFooter(
-            header = LoaderStateAdapter { adapterPaged.retry() },
-            footer = LoaderStateAdapter { adapterPaged.retry() }
-        )
+        binding.rvMovieList.adapter =
+            adapterPaged.withLoadStateFooter(LoaderStateAdapter { adapterPaged.retry() })
 
         adapterPaged.addLoadStateListener { state ->
             if (state.source.refresh is LoadState.NotLoading && adapterPaged.itemCount >= 1) {
@@ -65,10 +63,11 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                 errorDialog.dismiss()
             }
             if (state.source.refresh is LoadState.Error) {
-               showErrorMessage()
+                showErrorMessage()
             }
         }
     }
+
     private fun subscribeUi() {
         lifecycleScope.launchWhenStarted {
             viewModel.moviePaged.observe(viewLifecycleOwner, {
@@ -83,11 +82,11 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         }
     }
 
-    private fun initShimmer(){
+    private fun initShimmer() {
         binding.containerShimmer.startShimmer()
     }
 
-    private fun showErrorMessage(){
+    private fun showErrorMessage() {
         errorDialog.show()
         sheetBindingDialog.btnOk.setOnClickListener {
             adapterPaged.refresh();

@@ -1,4 +1,4 @@
-package com.alpine12.moviegalleryshow.ui.movie.adapter
+package com.alpine12.moviegalleryshow.ui.home.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.data.model.movie.Genres
 import com.alpine12.moviegalleryshow.databinding.ItemListTextCategoryBinding
-import timber.log.Timber
 
 class GenreAdapter(private val listener: OnGenreClickListener) :
     ListAdapter<Genres, GenreAdapter.GenreViewHolder>(DiffUtils()) {

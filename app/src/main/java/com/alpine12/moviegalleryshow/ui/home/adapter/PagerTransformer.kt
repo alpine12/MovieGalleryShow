@@ -1,4 +1,4 @@
-package com.alpine12.moviegalleryshow.ui.movie.adapter
+package com.alpine12.moviegalleryshow.ui.home.adapter
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

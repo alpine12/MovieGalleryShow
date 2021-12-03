@@ -14,7 +14,6 @@ import com.alpine12.moviegalleryshow.ui.adapter.LoaderStateAdapter
 import com.alpine12.moviegalleryshow.ui.adapter.MoviesPagedAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import kotlin.system.exitProcess
 
 @AndroidEntryPoint
@@ -29,7 +28,6 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("State Movie Created")
         binding = FragmentListAllMoviesBinding.bind(view)
         initUi()
         onClick()
@@ -54,8 +52,7 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
         }
 
         adapterPager = MoviesPagedAdapter(this)
-        binding.rvAllMovie.adapter = adapterPager.withLoadStateHeaderAndFooter(
-            header = LoaderStateAdapter { adapterPager.retry() },
+        binding.rvAllMovie.adapter = adapterPager.withLoadStateFooter(
             footer = LoaderStateAdapter { adapterPager.retry() }
         )
         adapterPager.addLoadStateListener { loadState ->
