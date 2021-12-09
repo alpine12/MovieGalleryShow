@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.data.model.movie.Movie
 import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentSearchBinding
 import com.alpine12.moviegalleryshow.ui.adapter.LoaderStateAdapter
@@ -102,8 +103,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onItemClick(idMovie: Int) {
-        val action = SearchFragmentDirections.actionSearchFragmentToDetailMovieFragment(idMovie)
+    override fun onItemClick(movie: Movie) {
+        val action = SearchFragmentDirections.actionSearchFragmentToDetailMovieFragment(movie)
         findNavController().navigate(action)
     }
 }

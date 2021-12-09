@@ -6,7 +6,7 @@
         android:title="@string/nav_movie" />
 
     <item
-        android:id="@+id/menu_tv_fragment"
+        android:id="@+id/menu_save_movie"
         android:icon="@drawable/ic_tv_nav"
-        android:title="@string/tv_show_nav" />
+        android:title="@string/nav_movie_saved" />
 </menu>

@@ -4,17 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alpine12.moviegalleryshow.data.database.MovieEntity
 import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.detailmovie.DetailMovie
 import com.alpine12.moviegalleryshow.data.model.detailmovie.ResponseVideos
 import com.alpine12.moviegalleryshow.data.repository.RemoteRepository
+import com.alpine12.moviegalleryshow.data.repository.local.LocalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailMovieViewModel @Inject constructor(private val remoteRepository: RemoteRepository) :
+class DetailMovieViewModel @Inject constructor(private val remoteRepository: RemoteRepository, private val localRepository: LocalRepository) :
     ViewModel() {
 
     private val _detailMovie = MutableLiveData<ResultData<DetailMovie>>()
@@ -33,5 +35,9 @@ class DetailMovieViewModel @Inject constructor(private val remoteRepository: Rem
         remoteRepository.getVideos(idMovie).collect {
             _videos.postValue(it)
         }
+    }
+
+     fun saveMovie(movieEntity: MovieEntity) = viewModelScope.launch {
+        localRepository.insertMovie(movieEntity)
     }
 }

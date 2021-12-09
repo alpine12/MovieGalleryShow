@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alpine12.moviegalleryshow.R
 import com.alpine12.moviegalleryshow.data.model.ResultData.Status.*
 import com.alpine12.moviegalleryshow.data.model.movie.Genres
+import com.alpine12.moviegalleryshow.data.model.movie.Movie
 import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentMovieShowBinding
 import com.alpine12.moviegalleryshow.ui.home.adapter.GenreAdapter
@@ -279,15 +280,15 @@ class MovieShowFragment : Fragment(R.layout.fragment_movie_show),
         Timber.d("$title pesan $message")
     }
 
-    override fun onMovieClick(idMovie: Int) {
+    override fun onMovieClick(movie: Movie) {
         val action =
-            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
+            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(movie)
         findNavController().navigateSafe(action)
     }
 
-    override fun onPagerClick(idMovie: Int) {
+    override fun onPagerClick(movie: Movie) {
         val action =
-            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(idMovie)
+            MovieShowFragmentDirections.actionMenuMovieFragmentToDetailMovieFragment(movie)
         findNavController().navigate(action)
     }
 

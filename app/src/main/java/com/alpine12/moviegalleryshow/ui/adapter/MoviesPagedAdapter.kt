@@ -36,7 +36,7 @@ class MoviesPagedAdapter(private val listener: OnItemCLickListener) :
         init {
             binding.apply {
                 root.setOnClickListener {
-                    listener.onItemClick(getItem(position)!!.id)
+                    listener.onItemClick(getItem(bindingAdapterPosition)!!)
                 }
             }
         }
@@ -48,7 +48,7 @@ class MoviesPagedAdapter(private val listener: OnItemCLickListener) :
                 movie.release_date?.let {
                     Timber.d("dateAdapter $it ${movie.title}")
                     tvYearMovie.text.apply {
-                        if (it == "") "Unknown" else tvYearMovie.text =  Utils.DateFormat(it, "yyyy-mm-dd", "yyyy")
+                        if (it == "") "Unknown" else tvYearMovie.text =  Utils.dateFormat(it, "yyyy-mm-dd", "yyyy")
                     }
                 }
                 movie.genre_ids?.let {
@@ -78,6 +78,6 @@ class MoviesPagedAdapter(private val listener: OnItemCLickListener) :
     }
 
     interface OnItemCLickListener {
-        fun onItemClick(idMovie: Int)
+        fun onItemClick(movie: Movie)
     }
 }

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alpine12.moviegalleryshow.BuildConfig
 import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.data.database.MovieEntity
 import com.alpine12.moviegalleryshow.data.model.ResultData
 import com.alpine12.moviegalleryshow.data.model.detailmovie.DetailMovie
 import com.alpine12.moviegalleryshow.databinding.FragmentDetailMovieBinding
@@ -31,10 +32,12 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
     private val args: DetailMovieFragmentArgs by navArgs()
     private lateinit var companiesAdapter: CompaniesAdapter
     private lateinit var videosAdapter: VideosAdapter
+    private lateinit var movieEntity: MovieEntity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentDetailMovieBinding.bind(view)
         initUi()
+        initClick()
         setupToolbar()
         subscribeUi()
     }
@@ -43,8 +46,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
         companiesAdapter = CompaniesAdapter()
         videosAdapter = VideosAdapter(this)
 
-        viewModel.getDetailMovie(args.idMovie)
-        viewModel.getVideos(args.idMovie)
+        Timber.d(args.movie.toString());
+
+        viewModel.getDetailMovie(args.movie.id)
+        viewModel.getVideos(args.movie.id)
 
         binding.apply {
             rvProductionCompanies.adapter = companiesAdapter
@@ -52,6 +57,14 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
             rvTrailers.adapter = videosAdapter
             rvTrailers.hasFixedSize()
 
+        }
+    }
+
+    private fun initClick() {
+        binding.btnFavorite.setOnClickListener {
+            args.movie.apply {
+                viewModel.saveMovie(MovieEntity(id,title,vote_average,backdrop_path,genre_ids,release_date,popularity))
+            }
         }
     }
 
@@ -88,11 +101,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
                     Timber.d(it.data?.results.toString())
                     val result = it.data?.results
                     val key = result?.let { videos ->
-                        if (videos.isNotEmpty()){
+                        if (videos.isNotEmpty()) {
                             binding.btnTrailer.root.setOnClickListener {
                                 intentVideos(videos[0].key)
                             }
-                        }else{
+                        } else {
                             binding.btnTrailer.root.visibility = View.GONE
                         }
                     }
@@ -110,6 +123,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
 
     private fun showData(data: DetailMovie?) {
         data?.let {
+
             Glide.with(this@DetailMovieFragment)
                 .load(BuildConfig.imageUrl + data.backdrop_path)
                 .transition(DrawableTransitionOptions.withCrossFade())

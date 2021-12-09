@@ -34,8 +34,7 @@ class MovieAdapter(private val listener: OnMovieClickListener) :
                 root.setOnClickListener {
                     val position = position
                     if (position != RecyclerView.NO_POSITION) {
-                        val idMovie = getItem(position).id
-                        listener.onMovieClick(idMovie)
+                        listener.onMovieClick(getItem(position))
                     }
                 }
             }
@@ -55,7 +54,7 @@ class MovieAdapter(private val listener: OnMovieClickListener) :
     }
 
     interface OnMovieClickListener {
-        fun onMovieClick(idMovie: Int)
+        fun onMovieClick(movie: Movie)
     }
 
     class DiffCallBack : DiffUtil.ItemCallback<Movie>() {

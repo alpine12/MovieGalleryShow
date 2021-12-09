@@ -1,4 +1,4 @@
-package com.alpine12.moviegalleryshow.ui.showallmovie.adapter
+package com.alpine12.moviegalleryshow.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alpine12.moviegalleryshow.BuildConfig
 import com.alpine12.moviegalleryshow.R
-import com.alpine12.moviegalleryshow.data.model.movie.Movie
+import com.alpine12.moviegalleryshow.data.database.MovieEntity
 import com.alpine12.moviegalleryshow.databinding.ItemListAllMovieBinding
 import com.alpine12.moviegalleryshow.utils.Constant
 import com.alpine12.moviegalleryshow.utils.Utils
@@ -15,8 +15,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class AllMovieAdapter(private val listener: OnItemCLickListener) :
-    ListAdapter<Movie, AllMovieAdapter.ViewHolder>(DiffCallBack()) {
+class MoviesSavedAdapter(private val listener: OnItemClickListener) :
+    ListAdapter<MovieEntity, MoviesSavedAdapter.ViewHolder>(DiffCallback()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemListAllMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,21 +25,19 @@ class AllMovieAdapter(private val listener: OnItemCLickListener) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = getItem(position)
-        holder.bindItem(movie)
+        holder.bind(getItem(position))
     }
 
     inner class ViewHolder(private val binding: ItemListAllMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         init {
-            binding.apply {
-                root.setOnClickListener {
-                    listener.onItemClick(getItem(position).id)
-                }
+            binding.root.setOnClickListener {
+                listener.onItemClick(getItem(bindingAdapterPosition))
             }
         }
 
-        fun bindItem(movie: Movie) {
+        fun bind(movie: MovieEntity) {
             binding.apply {
                 tvTitleMovie.text = movie.title
                 tvViewersMovie.text = "${movie.popularity} Viewers"
@@ -63,15 +62,21 @@ class AllMovieAdapter(private val listener: OnItemCLickListener) :
         }
     }
 
-    class DiffCallBack : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+    class DiffCallback : DiffUtil.ItemCallback<MovieEntity>() {
+        override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
             oldItem == newItem
+
     }
 
-    interface OnItemCLickListener {
-        fun onItemClick(idMovie: Int)
+    interface OnItemClickListener {
+        fun onItemClick(movie: MovieEntity)
     }
+
 }
+
+
+
+

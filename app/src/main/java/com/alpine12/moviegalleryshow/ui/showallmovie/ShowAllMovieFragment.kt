@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.alpine12.moviegalleryshow.R
+import com.alpine12.moviegalleryshow.data.model.movie.Movie
 import com.alpine12.moviegalleryshow.databinding.BottomsheetErrorBinding
 import com.alpine12.moviegalleryshow.databinding.FragmentListAllMoviesBinding
 import com.alpine12.moviegalleryshow.ui.adapter.LoaderStateAdapter
@@ -101,9 +102,9 @@ class ShowAllMovieFragment : Fragment(R.layout.fragment_list_all_movies),
         }
     }
 
-    override fun onItemClick(idMovie: Int) {
+    override fun onItemClick(movie: Movie) {
         val action =
-            ShowAllMovieFragmentDirections.actionShowAllMovieFragmentToDetailMovieFragment(idMovie)
+            ShowAllMovieFragmentDirections.actionShowAllMovieFragmentToDetailMovieFragment(movie)
         findNavController().navigate(action)
     }
 }

@@ -35,8 +35,7 @@ class PagerMovieAdapter(private val onPagerClick: OnPagerClick) :
                 root.setOnClickListener {
                     val position = position
                     if (position != RecyclerView.NO_POSITION) {
-                        val idMovie = getItem(position).id
-                        onPagerClick.onPagerClick(idMovie)
+                        onPagerClick.onPagerClick(getItem(position))
                     }
                 }
             }
@@ -56,7 +55,7 @@ class PagerMovieAdapter(private val onPagerClick: OnPagerClick) :
     }
 
     interface OnPagerClick {
-        fun onPagerClick(idMovie: Int)
+        fun onPagerClick(movie: Movie)
     }
 
     class DiffCallBack : DiffUtil.ItemCallback<Movie>() {

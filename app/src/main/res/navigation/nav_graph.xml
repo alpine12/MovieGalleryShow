@@ -31,23 +31,28 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/menu_tv_fragment"
-        android:name="com.alpine12.moviegalleryshow.ui.tvshow.TvShowFragment"
+        android:id="@+id/menu_save_movie"
+        android:name="com.alpine12.moviegalleryshow.ui.moviesaved.MovieSavedFragment"
         android:label="fragment_tv_show"
-        tools:layout="@layout/fragment_tv_show" />
+        tools:layout="@layout/fragment_movie_saved" >
+        <action
+            android:id="@+id/action_menu_save_movie_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailMovieFragment"
         android:name="com.alpine12.moviegalleryshow.ui.detailmovie.DetailMovieFragment"
         android:label="fragment_detail_movie"
         tools:layout="@layout/fragment_detail_movie" >
         <argument
-            android:name="idMovie"
-            app:argType="integer" />
+            android:name="movie"
+            app:argType="com.alpine12.moviegalleryshow.data.model.movie.Movie" />
     </fragment>
     <fragment
         android:id="@+id/showAllMovieFragment"
         android:name="com.alpine12.moviegalleryshow.ui.showallmovie.ShowAllMovieFragment"
-        android:label="ShowAllMovieFragment" >
+        android:label="ShowAllMovieFragment"
+        tools:layout="@layout/fragment_list_all_movies">
         <action
             android:id="@+id/action_showAllMovieFragment_to_detailMovieFragment"
             app:destination="@id/detailMovieFragment" />
@@ -58,7 +63,8 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.alpine12.moviegalleryshow.ui.searchmovie.SearchFragment"
-        android:label="SearchFragment" >
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_detailMovieFragment"
             app:destination="@id/detailMovieFragment" />
