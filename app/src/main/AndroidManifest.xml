@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alpine12.moviegalleryshow">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.alpine12.moviegalleryshow.App"
@@ -11,11 +11,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MovieGaleryShow">
-        <activity android:name="com.alpine12.moviegalleryshow.ui.main.MainActivity"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity android:name="com.alpine12.moviegalleryshow.ui.splash.SplashActivity">
+        android:theme="@style/Theme.MovieGalleryShow">
+        <activity
+            android:name="com.alpine12.moviegalleryshow.ui.main.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.alpine12.moviegalleryshow.ui.splash.SplashActivity"
+
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

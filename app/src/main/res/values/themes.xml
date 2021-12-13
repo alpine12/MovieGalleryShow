@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MovieGaleryShow" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.MovieGalleryShow" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>

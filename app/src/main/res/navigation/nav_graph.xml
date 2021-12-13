@@ -37,7 +37,9 @@
         tools:layout="@layout/fragment_movie_saved" >
         <action
             android:id="@+id/action_menu_save_movie_to_detailMovieFragment"
-            app:destination="@id/detailMovieFragment" />
+            app:destination="@id/detailMovieFragment"
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/detailMovieFragment"
