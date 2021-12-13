@@ -10,10 +10,12 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(movie: MovieEntity)
+    suspend fun insert(movie: MovieEntity) : Long
 
     @Query("select * from movie_table order by dateSaved ASC")
     fun getMovieSaved(): Flow<List<MovieEntity>>
 
+    @Query("select * from movie_table where title like '%' || :query || '%' order by dateSaved ASC")
+    fun getSearchMovie(query: String) : Flow<List<MovieEntity>>
 
 }

@@ -10,13 +10,15 @@ import javax.inject.Singleton
 @Singleton
 class LocalRepository @Inject constructor(private val movieDao: MovieDao) {
 
-    suspend fun insertMovie(movie : MovieEntity){
-        Timber.d("Insert")
-        movieDao.insert(movie)
+    suspend fun insertMovie(movie : MovieEntity) : Long{
+      return  movieDao.insert(movie)
     }
 
     fun getMovie(): Flow<List<MovieEntity>> {
-        Timber.d("get")
        return movieDao.getMovieSaved()
+    }
+
+    fun getSearchMovie(query : String): Flow<List<MovieEntity>>{
+        return movieDao.getSearchMovie(query)
     }
 }

@@ -13,10 +13,14 @@ import com.alpine12.moviegalleryshow.data.repository.local.LocalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailMovieViewModel @Inject constructor(private val remoteRepository: RemoteRepository, private val localRepository: LocalRepository) :
+class DetailMovieViewModel @Inject constructor(
+    private val remoteRepository: RemoteRepository,
+    private val localRepository: LocalRepository
+) :
     ViewModel() {
 
     private val _detailMovie = MutableLiveData<ResultData<DetailMovie>>()
@@ -37,7 +41,8 @@ class DetailMovieViewModel @Inject constructor(private val remoteRepository: Rem
         }
     }
 
-     fun saveMovie(movieEntity: MovieEntity) = viewModelScope.launch {
-        localRepository.insertMovie(movieEntity)
+    fun saveMovie(movieEntity: MovieEntity) = viewModelScope.launch {
+        val id = localRepository.insertMovie(movieEntity)
+        Timber.d("After insert $id")
     }
 }

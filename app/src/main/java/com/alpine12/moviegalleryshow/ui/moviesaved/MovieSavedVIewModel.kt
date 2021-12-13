@@ -23,4 +23,10 @@ class MovieSavedVIewModel @Inject constructor(private val localRepository: Local
             _movieSaved.postValue(it)
         }
     }
+
+    fun getSearchMovie(query : String)= viewModelScope.launch {
+        localRepository.getSearchMovie(query).collectLatest {
+            _movieSaved.postValue(it)
+        }
+    }
 }
