@@ -96,13 +96,14 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
                     binding.imgSaveMovie.setImageDrawable(resources.getDrawable(R.drawable.save_fill))
                     binding.imgSaveMovie.setOnClickListener {
                         viewModel.deleteMovie(toMovieEntity())
-                        toast("Berhasil Simpan ${toMovieEntity().title}")
+                        toast("Berhasil Hapus ${toMovieEntity().title}")
+
                     }
                 } else {
                     binding.imgSaveMovie.setImageDrawable(resources.getDrawable(R.drawable.save_none))
                     binding.imgSaveMovie.setOnClickListener {
                         viewModel.saveMovie(toMovieEntity())
-                        toast("Berhasil Hapus ${toMovieEntity().title}")
+                        toast("Berhasil Simpan ${toMovieEntity().title}")
                     }
                 }
             }
