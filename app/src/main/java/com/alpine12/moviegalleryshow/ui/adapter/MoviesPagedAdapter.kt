@@ -36,6 +36,7 @@ class MoviesPagedAdapter(private val listener: OnItemCLickListener) :
         init {
             binding.apply {
                 root.setOnClickListener {
+                    Timber.d(getItem(bindingAdapterPosition).toString())
                     listener.onItemClick(getItem(bindingAdapterPosition)!!)
                 }
             }

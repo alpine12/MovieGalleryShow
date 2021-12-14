@@ -3,7 +3,6 @@
     <string name="nav_movie">Movie</string>
     <string name="nav_movie_saved">Saved Movie</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_movie_series">Search movie series</string>
     <string name="popular_text">Popular</string>
     <string name="see_all_text">See all</string>

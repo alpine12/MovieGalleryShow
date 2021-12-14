@@ -40,7 +40,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentDetailMovieBinding.bind(view)
         initUi()
-        initClick()
         setupToolbar()
         subscribeUi()
     }
@@ -59,25 +58,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
             rvProductionCompanies.setHasFixedSize(true)
             rvTrailers.adapter = videosAdapter
             rvTrailers.hasFixedSize()
-
-        }
-    }
-
-    private fun initClick() {
-        binding.btnFavorite.setOnClickListener {
-            args.movie.apply {
-                viewModel.saveMovie(
-                    MovieEntity(
-                        id,
-                        title,
-                        vote_average,
-                        backdrop_path,
-                        genre_ids,
-                        release_date,
-                        popularity
-                    )
-                )
-            }
         }
     }
 
@@ -134,7 +114,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
                 ResultData.Status.SUCCESS -> {
                     Timber.d(it.data?.results.toString())
                     val result = it.data?.results
-                    val key = result?.let { videos ->
+                    result?.let { videos ->
                         if (videos.isNotEmpty()) {
                             binding.btnTrailer.root.setOnClickListener {
                                 intentVideos(videos[0].key)
