@@ -29,14 +29,14 @@ android {
 
             buildConfigField 'String', 'baseUrl', '"https://api.themoviedb.org/3/"'
             buildConfigField 'String', 'imageUrl', '"https://image.tmdb.org/t/p/original/"'
-            buildConfigField 'String', 'apiKey', '"9a3e423e0e569a1992be36267f001479"'
+            buildConfigField 'String', 'apiKey', '"{API_KEY_KAMU}"'
             buildConfigField 'String', 'youtubeUrl', '"https://img.youtube.com/vi/"'
         }
 
         debug {
             buildConfigField 'String', 'baseUrl', '"https://api.themoviedb.org/3/"'
             buildConfigField 'String', 'imageUrl', '"https://image.tmdb.org/t/p/original/"'
-            buildConfigField 'String', 'apiKey', '"9a3e423e0e569a1992be36267f001479"'
+            buildConfigField 'String', 'apiKey', '"{API_KEY_KAMU}"'
             buildConfigField 'String', 'youtubeUrl', '"https://img.youtube.com/vi/"'
         }
     }
