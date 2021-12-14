@@ -1,11 +1,13 @@
 package com.alpine12.moviegalleryshow.ui.detailmovie
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alpine12.moviegalleryshow.BuildConfig
@@ -20,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import java.util.*
 
@@ -63,7 +66,17 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
     private fun initClick() {
         binding.btnFavorite.setOnClickListener {
             args.movie.apply {
-                viewModel.saveMovie(MovieEntity(id,title,vote_average,backdrop_path,genre_ids,release_date,popularity))
+                viewModel.saveMovie(
+                    MovieEntity(
+                        id,
+                        title,
+                        vote_average,
+                        backdrop_path,
+                        genre_ids,
+                        release_date,
+                        popularity
+                    )
+                )
             }
         }
     }
@@ -74,7 +87,27 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun subscribeUi() {
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.getSearchId(args.movie.id).collectLatest {
+                if (it > 0) {
+                    binding.imgSaveMovie.setImageDrawable(resources.getDrawable(R.drawable.save_fill))
+                    binding.imgSaveMovie.setOnClickListener {
+                        viewModel.deleteMovie(toMovieEntity())
+                        toast("Berhasil Simpan ${toMovieEntity().title}")
+                    }
+                } else {
+                    binding.imgSaveMovie.setImageDrawable(resources.getDrawable(R.drawable.save_none))
+                    binding.imgSaveMovie.setOnClickListener {
+                        viewModel.saveMovie(toMovieEntity())
+                        toast("Berhasil Hapus ${toMovieEntity().title}")
+                    }
+                }
+            }
+        }
+
         viewModel.detailMovie.observe(viewLifecycleOwner, {
             when (it.status) {
                 ResultData.Status.LOADING -> {
@@ -147,6 +180,24 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie),
             data.production_companies.apply {
                 companiesAdapter.submitList(this)
             }
+        }
+    }
+
+    private fun toast(msg: String) {
+        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun toMovieEntity(): MovieEntity {
+        args.movie.apply {
+            return MovieEntity(
+                id,
+                title,
+                vote_average,
+                backdrop_path,
+                genre_ids,
+                release_date,
+                popularity
+            )
         }
     }
 

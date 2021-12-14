@@ -13,7 +13,6 @@ import com.alpine12.moviegalleryshow.data.repository.local.LocalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,7 +41,12 @@ class DetailMovieViewModel @Inject constructor(
     }
 
     fun saveMovie(movieEntity: MovieEntity) = viewModelScope.launch {
-        val id = localRepository.insertMovie(movieEntity)
-        Timber.d("After insert $id")
+        localRepository.insertMovie(movieEntity)
     }
+
+    fun deleteMovie(movieEntity: MovieEntity) = viewModelScope.launch {
+        localRepository.deleteMovie(movieEntity)
+    }
+
+    fun getSearchId(id: Int) = localRepository.getSearchId(id)
 }

@@ -51,7 +51,7 @@ class MovieSavedFragment : Fragment(R.layout.fragment_movie_saved),
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val searchText = p0.toString()
                 searchJob?.cancel()
-                searchJob = lifecycleScope.launchWhenCreated {
+                searchJob = lifecycleScope.launchWhenStarted {
                     delay(300L)
                    viewModel.getSearchMovie(searchText)
                 }
