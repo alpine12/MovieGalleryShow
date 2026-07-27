@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/menu_movie_fragment"
-        android:name="com.alpine12.moviegalleryshow.ui.home.MovieShowFragment"
+        android:name="com.alpine12.catalogMovie.ui.home.MovieShowFragment"
         android:label="fragment_movie_show"
         tools:layout="@layout/fragment_movie_show" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/menu_save_movie"
-        android:name="com.alpine12.moviegalleryshow.ui.moviesaved.MovieSavedFragment"
+        android:name="com.alpine12.catalogMovie.ui.moviesaved.MovieSavedFragment"
         android:label="fragment_tv_show"
         tools:layout="@layout/fragment_movie_saved" >
         <action
@@ -43,16 +43,16 @@
     </fragment>
     <fragment
         android:id="@+id/detailMovieFragment"
-        android:name="com.alpine12.moviegalleryshow.ui.detailmovie.DetailMovieFragment"
+        android:name="com.alpine12.catalogMovie.ui.detailmovie.DetailMovieFragment"
         android:label="fragment_detail_movie"
         tools:layout="@layout/fragment_detail_movie" >
         <argument
             android:name="movie"
-            app:argType="com.alpine12.moviegalleryshow.data.model.movie.Movie" />
+            app:argType="com.alpine12.catalogMovie.data.model.movie.Movie" />
     </fragment>
     <fragment
         android:id="@+id/showAllMovieFragment"
-        android:name="com.alpine12.moviegalleryshow.ui.showallmovie.ShowAllMovieFragment"
+        android:name="com.alpine12.catalogMovie.ui.showallmovie.ShowAllMovieFragment"
         android:label="ShowAllMovieFragment"
         tools:layout="@layout/fragment_list_all_movies">
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.alpine12.moviegalleryshow.ui.searchmovie.SearchFragment"
+        android:name="com.alpine12.catalogMovie.ui.searchmovie.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action

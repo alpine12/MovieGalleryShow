@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.alpine12.moviegalleryshow">
+    package="com.alpine12.catalogMovie">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.alpine12.moviegalleryshow.App"
+        android:name="com.alpine12.catalogMovie.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_icon_foreground"
         android:label="@string/app_name"
@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieGalleryShow">
         <activity
-            android:name="com.alpine12.moviegalleryshow.ui.main.MainActivity"
+            android:name="com.alpine12.catalogMovie.ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.alpine12.moviegalleryshow.ui.splash.SplashActivity"
+            android:name="com.alpine12.catalogMovie.ui.splash.SplashActivity"
 
             android:exported="true">
             <intent-filter>
